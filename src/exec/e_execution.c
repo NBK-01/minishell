@@ -6,7 +6,7 @@
 /*   By: mhabbal <mhabbal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:17 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/26 12:21:28 by mhabbal          ###   ########.fr       */
+/*   Updated: 2024/08/26 16:28:13 by mhabbal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ void e_simple_command(t_ast_node *node, t_exec_utils *util)
         exec_export(&util->env, node->args[1]);
         return;
     }
+	if (!ft_strcmp(node->args[0], "cd"))
+	{
+		change_dir(util, node->args);
+		return ;
+	}
     if (!ft_strncmp(node->args[0], "/", 1) || !ft_strncmp(node->args[0], "./", 2))
         path = ft_strdup(node->args[0]);
     else

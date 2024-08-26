@@ -3,6 +3,13 @@
         "compare": "c",
         "type_traits": "c",
         "utility": "c",
-        "execute.h": "c"
+        "execute.h": "c",
+        "minishell.h": "c",
+        "structs.h": "c",
+        "libft.h": "c",
+        "string.h": "c",
+        "history.h": "c",
+        "stdio.h": "c",
+        "readline.h": "c"
     }
 }

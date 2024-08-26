@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mhabbal <mhabbal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:41:09 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/07/30 12:41:09 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/08/26 16:34:33 by mhabbal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 # include "./minishell.h"
+# include "./execute.h"
 
 // IF ANY ENV GETS UNSET OR IS NULL DO CHECKS IN BUILTIN COMMANDS TO RETURN ERRROS (SEE BASH)
 // EXAMPLES: UNSET OLDPWD -> CD - SHOULD RETURN AN ERROR CHECK IF OLDPWD IS NULL WHEN CHDIRing INTO IT
@@ -22,7 +23,7 @@
 
 char	*get_dir(void);
 char	*get_env(void);
-void	change_dir(const char *path, char *home);
+void	change_dir(t_exec_utils *util, char **args);
 void    handle_builtins(char *input, char **env);
 void	exec_env(t_env **env, char **args);
 void	exec_unset(t_env **env, char **args);
