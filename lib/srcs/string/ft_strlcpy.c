@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:34:05 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/07/29 13:56:18 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:00:43 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
-	
+
 	i = 0;
 	while (src[i])
 	{
 		dest[i] = src[i];
 		i++;
 	}
-	dest[i + 1] =  src[i];
+	dest[i + 1] = src[i];
 	return (dest);
 }

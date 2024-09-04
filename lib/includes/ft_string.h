@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_string.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 14:24:23 by nbk               #+#    #+#             */
+/*   Updated: 2024/09/03 15:15:02 by nbk              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_STRING_H
 # define FT_STRING_H
 # include "./libft.h"
@@ -16,11 +28,10 @@ char	*ft_strdup(char *src);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int	ft_strcmp(const char *s1, const char *s2);
-
+int		ft_strcmp(const char *s1, const char *s2);
 
 /*////////////////////////////////////////
-//		MEMORY			//
+//		MEMORY			                //
 ////////////////////////////////////////*/
 int		ft_memcmp(const void *str1, const void *str2, size_t n);
 void	ft_bzero(void *str, size_t n );

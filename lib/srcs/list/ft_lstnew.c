@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:26:33 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/29 20:34:31 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:19:42 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,17 @@ t_lex_ll	*l_lstnew(int id)
 	return (node);
 }
 
-t_env *env_lstnew(const char *key, const char *value, int hidden) {
-    t_env *new = malloc(sizeof(t_env));
-    new->hidden = hidden;
-    new->key = strdup(key); // Duplicate key
+t_env	*env_lstnew(char *key, char *value, int hidden)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	new->hidden = hidden;
+	new->key = ft_strdup(key);
 	if (!value)
 		new->value = ft_strdup("");
 	else
-		new->value = strdup(value); // Duplicate value
-    new->next = NULL;
-    return new;
+		new->value = ft_strdup(value);
+	new->next = NULL;
+	return (new);
 }

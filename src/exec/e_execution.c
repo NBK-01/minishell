@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   e_execution.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:17 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/02 15:03:31 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:09:17 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execute.h"
 #include "../../includes/builtins.h"
-# include <sys/stat.h>
+#include <sys/stat.h>
 #include <errno.h>
 
 int	e_traverse_tree(t_ast_node *node, t_exec_utils *util, t_env **env)
@@ -67,14 +67,14 @@ void	e_operator_or(t_ast_node *node, t_exec_utils *util, t_env **env)
 		else
 			e_traverse_tree(node->right, util, env);
 	}
-}	
+}
 
-void e_pipeline(t_ast_node *node, t_exec_utils *util, t_env **env)
+void	e_pipeline(t_ast_node *node, t_exec_utils *util, t_env **env)
 {
-	int	fd[2];
+	int		fd[2];
 	pid_t	pid1;
 	pid_t	pid2;
-	int status;
+	int		status;
 
 	(void)env;
 	if (pipe(fd) == -1)
@@ -85,71 +85,12 @@ void e_pipeline(t_ast_node *node, t_exec_utils *util, t_env **env)
 	}
 	e_pipeline_parent(node, util, &pid1, fd);
 	e_pipeline_child(node, util, &pid2, fd);
-		
 	close(fd[0]);
 	close(fd[1]);
 	e_pipeline_status(pid1, pid2, &status, util);
 }
 
-int	handle_exit(t_exec_utils *util, char **args)
-{
-	char	*delim;
-	int	nbr;
 
-	if (!args[1])
-	{
-		ft_putendl_fd("exit", 0);
-		exit(util->code);
-	}
-	if (args[2])
-	{
-		ft_putendl_fd("exit", 0);
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putendl_fd("too many arguments", 2);
-		exit(1);
-	}
-	else if (args[1])
-	{
-		delim = ft_strchr(args[1], '+');
-		if (delim)
-		{
-			nbr = ft_atoi(delim + 1);
-			util->code += nbr;
-			exit(util->code);
-		}
-		else if (!delim)
-		{
-			delim = ft_strchr(args[1], '-');
-			if (delim)
-			{
-				nbr = ft_atoi(delim + 1);
-				util->code = 256 - nbr;
-				ft_putendl_fd("exit", 0);
-				exit(util->code);
-			}
-		}
-		int i = 0;
-		while (args[1][i])
-		{
-			if (ft_isdigit(args[1][i]))
-				i++;
-			else
-			{
-				ft_putendl_fd("exit", 0);
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(args[1], 2);
-				ft_putendl_fd(": numeric argument required", 2);
-				exit(2);
-			}
-		}
-		nbr = ft_atoi(args[1]);
-		if (nbr > 256)
-			nbr -= 256;
-		ft_putendl_fd("exit", 0);
-		exit(nbr);
-	}
-	return (1);
-}
 int count_nodes(t_env *head) {
     int count = 0;
     while (head) {
@@ -198,11 +139,11 @@ char **copy_list_to_array(t_env *head) {
 
 int	e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env)
 {
-	char *path;
-	pid_t pid;
-	int status;
-	struct stat statbuf;
-	char **array;
+	struct stat	statbuf;
+	char		**array;
+	char		*path;
+	int			status;
+	pid_t		pid;
 
 	if (!ft_strcmp(node->args[0], "echo"))
 	{
@@ -218,7 +159,7 @@ int	e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 			{
-				util->code = WEXITSTATUS(status);	   // General exit code
+				util->code = WEXITSTATUS(status);
 				util->exit_code = WEXITSTATUS(status);
 			}
 			else
@@ -250,32 +191,37 @@ if (stat(path, &statbuf) == 0)
 	if (path)
 	{
 		int fd = access(path, X_OK);
-	if (fd < 0 && errno == 13)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putendl_fd(": Permission denied", 2);
-		util->code = 126;
-		util->exit_code = 126;
-		free(path);
-		return(126);
+		if (fd < 0 && errno == 13)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(path, 2);
+			ft_putendl_fd(": Permission denied", 2);
+			util->code = 126;
+			util->exit_code = 126;
+			free(path);
+			return (126);
+		}
 	}
-
-
-	}
- if (!ft_strcmp(node->args[0], "exit"))
+	char	*oldpwd;
+ 	if (!ft_strcmp(node->args[0], "exit"))
     {
 	if (handle_exit(util, node->args))
 		return (util->code);
     }
-
+    if (!ft_strcmp(node->args[0], "cd"))
+    {
+		oldpwd = getcwd(NULL, 0);
+		change_dir(util, node->args);
+		modify_oldpwd(&util->env, oldpwd);
+		return (util->code);
+    }
     pid = fork();
     if (pid == 0)
     {
 	if (!ft_strcmp(node->args[0], "env"))
     {
         exec_env(env, node->args);
-        return(0);
+        return(util->code);
     }
 	if (!ft_strcmp(node->args[0], "pwd"))
     {
@@ -286,18 +232,13 @@ if (stat(path, &statbuf) == 0)
     {
         exec_unset(env, node->args);
 		util->code = 0;
-        return (0);
+        return(0);
     }
     if (!ft_strcmp(node->args[0], "export"))
     {
         exec_export(env, util, node->args);
-	return (util->code);
-}
-       if (!ft_strcmp(node->args[0], "cd"))
-    {
-		change_dir(util, node->args);
-		return (0);
-    }
+		return (util->code);
+	}
 		e_redirection(node, util);
 		if (path)
 		{
@@ -318,6 +259,7 @@ if (stat(path, &statbuf) == 0)
         {
             util->code = WEXITSTATUS(status);
             util->exit_code = WEXITSTATUS(status);
+			exit(util->code);
         }
         else
         {

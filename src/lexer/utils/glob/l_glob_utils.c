@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   l_glob_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:20 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/07 09:07:21 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 20:20:04 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	l_glob_match(const char *pattern, const char *string)
 		{
 			pattern++;
 			if (!*pattern)
-				return 1;
+				return (1);
 			while (*string)
 			{
 				if (l_glob_match(pattern, string))
@@ -30,13 +30,6 @@ int	l_glob_match(const char *pattern, const char *string)
 				string++;
 			}
 			return (0);
-		}
-		else if (*pattern == '?')
-		{
-			if (!*string)
-				return (0);
-			pattern++;
-			string++;
 		}
 		else
 		{

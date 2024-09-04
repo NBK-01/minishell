@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:33:48 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/03 20:18:42 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 14:30:04 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_list	*ft_lstlast(t_list *lst)
 t_lex_ll	*l_lstlast(t_lex_ll *lst)
 {
 	t_lex_ll	*temp;
-	
+
 	temp = lst;
 	if (!temp)
 		return (NULL);
@@ -43,7 +43,7 @@ t_lex_ll	*l_lstlast(t_lex_ll *lst)
 t_env	*env_lstlast(t_env *lst)
 {
 	t_env	*temp;
-	
+
 	temp = lst;
 	if (!temp)
 		return (NULL);
@@ -53,5 +53,3 @@ t_env	*env_lstlast(t_env *lst)
 	}
 	return (temp);
 }
-
-

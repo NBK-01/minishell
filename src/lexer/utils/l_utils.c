@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   l_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:38 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/02 20:17:33 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:13:31 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ if (*start == '$')
                 // Skip if exit code is NULL
             } else {
                 const char *var_start = start;
-                while (*start && (isalnum(*start) || *start == '_')) {
+                while (*start && (ft_isalnum(*start) || *start == '_')) {
                     start++;
                 }
                 size_t var_len = start - var_start;

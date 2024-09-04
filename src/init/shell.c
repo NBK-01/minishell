@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:58 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/02 16:16:45 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:55:12 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 #include "../../includes/ast.h"
 #include "../../includes/execute.h"
 
-
-void print_lex(t_lexer **lexer, int id)
+void	print_lex(t_lexer **lexer, int id)
 {
 	if (!(*lexer))
-		return;
+		return ;
 	while ((*lexer)->token_list)
 	{
 		if (id == 0)
@@ -32,19 +31,54 @@ void print_lex(t_lexer **lexer, int id)
 	}
 }
 
-char	*get_pro(t_env *env)
+void	restore_prompt(int sig)
 {
-	t_env	*head;
-
-	head = env;
-	while (head)
-	{
-		if (!(ft_strcmp(head->key, "USER")))
-			return (NULL);
-		head = head->next;
-	}
-	return (NULL);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+	(void)sig;
 }
+
+void	ctrl_c(int sig)
+{
+	write(1, "\n", 1);
+	(void)sig;
+}
+
+void	back_slash(int sig)
+{
+	printf("Quit (core dumped)\n");
+	(void)sig;
+}
+
+void	ctrl_c_pressed(int signal_num)
+{
+	(void)signal_num;
+	// rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+/*
+	If a process is terminated by signal N, the exit status is usually 128 + N
+*/
+void	ctrl_c_pressed_child(int signal_number)
+{
+	(void)signal_number;
+	write(1, "\n", 1);
+}
+
+/*
+	-redirects ctrl-c into it's functions
+	-redirects ctrl-\ into ignore
+*/
+void	setup_signals(void)
+{
+	signal(SIGINT, ctrl_c_pressed);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 
 void	init_shell(t_env *env)
 {
@@ -64,6 +98,7 @@ void	init_shell(t_env *env)
 	while (1)
 	{
 		input = readline("\033[1;31mmhabbal&nkanaan@minishell=> \033[0;0m");
+		setup_signals();
 		add_history(input);
 		init_lexer(input, &lex, &token, env);
 		close_values(input, &lex, &util);

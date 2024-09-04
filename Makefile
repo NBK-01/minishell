@@ -8,9 +8,9 @@ LIBFT = lib/libft.a
 
 CC = gcc
 
-CFLAGS = -Werror -Wall -Wextra -g -no-pie #-fsanitize=address
+CFLAGS = -Werror -Wall -Wextra -g #-fsanitize=address
 
-SRCS = main echo pwd env cd unset export init/lexer init/shell init/parser init/execute misc/prompt_utils misc/printing misc/env/env_ll
+SRCS = main echo exit pwd env cd unset export init/lexer init/shell init/parser init/execute misc/prompt_utils misc/printing misc/env/env_ll misc/env/env_utils
 
 BUILTIN_SRCS = handle_builtins
 

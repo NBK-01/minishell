@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhabbal <mhabbal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:27 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/26 12:21:34 by mhabbal          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:28:18 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,27 @@ char	*my_getenv(char *name, t_env *env_ll)
 	while (curr)
 	{
 		if (!(ft_strcmp(curr->key, name)))
-			return curr->value;
+			return (curr->value);
 		curr = curr->next;
 	}
 	return (NULL);
 }
 
-
 char	*get_path(char **s_cmd, t_env **env_ll)
 {
-	int	i;
+	int		i;
 	char	*exec;
 	char	**allpath;
 	char	*path_part;
 	char	*path;
-	t_env	*head = (*env_ll);
 
 	i = -1;
-	path = my_getenv("PATH", head);
+	path = my_getenv("PATH", (*env_ll));
 	if (!path)
 		return (NULL);
 	allpath = ft_split(path, ':');
 	if (!allpath)
-		return NULL;
+		return (NULL);
 	while (allpath[++i])
 	{
 		path_part = ft_strjoin(allpath[i], "/");
@@ -54,10 +52,10 @@ char	*get_path(char **s_cmd, t_env **env_ll)
 	return (NULL);
 }
 
-void handle_doc(char *lim, int pipefd[2])
+void	handle_doc(char *lim, int pipefd[2])
 {
-	char *line;
-	int flag;
+	char	*line;
+	int		flag;
 
 	flag = 1;
 	while (flag)
@@ -68,7 +66,7 @@ void handle_doc(char *lim, int pipefd[2])
 			free(line);
 			flag -= flag;
 			close(pipefd[1]);
-			return;
+			return ;
 		}
 		write(pipefd[1], line, ft_strlen(line));
 		free(line);

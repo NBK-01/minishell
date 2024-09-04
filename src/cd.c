@@ -1,25 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 15:37:49 by nbk               #+#    #+#             */
+/*   Updated: 2024/09/03 20:51:15 by nbk              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/builtins.h"
 
-void	modify_oldpwd(t_env **env, char *oldpwd)
-{
-	t_env	*head;
-	t_env	*new;
-
-	head = (*env);
-	while (head)
-	{
-		if (!ft_strcmp(head->key, "OLDPWD"))
-		{
-			head->value = ft_strdup(oldpwd);
-			return ;
-		}
-		head = head->next;
-	}
-	new = env_lstnew("OLDPWD", oldpwd, 0);
-	env_lstadd_back(env, new);
-}
-
-char	*get_home_path(t_env **env)
+char	*get_cd_path(t_env **env, char *path)
 {
 	t_env	*temp;
 	char	*home;
@@ -28,53 +21,99 @@ char	*get_home_path(t_env **env)
 	home = NULL;
 	while (temp)
 	{
-		if(!ft_strcmp(temp->key, "HOME"))
+		if (!ft_strcmp(temp->key, path))
 		{
 			home = ft_strdup(temp->value);
-			break;
+			break ;
 		}
 		temp = temp->next;
 	}
 	return (home);
 }
 
-void	change_dir(t_exec_utils *util, char **args) 
+int	home_cd(t_exec_utils *util, char **args)
 {
 	char	*home;
-	char 	*path;
-	char	*oldpwd;
 
-	home = get_home_path(&util->env);
-	oldpwd = getcwd(NULL, 0);
-	modify_oldpwd(&util->env, oldpwd);
-	if (args[2])
-	{
-		ft_putendl_fd(" too many arguments", 2);
-		util->code = 1;
-		return ;
-	}
+	home = get_cd_path(&util->env, "HOME");
 	if (args[1] == NULL)
 	{
 		if (chdir(home) != 0)
 		{
 			util->code = 1;
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			return ;	
+			return (1);
 		}
 		util->code = 0;
-		return ;
+		return (1);
 	}
+	return (0);
+}
+
+int	path_cd(t_exec_utils *util, char **args)
+{
+	char	*path;
+	char	*home;
+
+	home = get_cd_path(&util->env, "HOME");
 	path = ft_strdup(args[1]);
 	if (path)
 	{
 		if (path[0] == '~')
-			path = ft_strjoin(home, ft_substr(path, 1, ft_strlen(path)- 1));
+			path = ft_strjoin(home, ft_substr(path, 1, ft_strlen(path) - 1));
 		if (chdir(path) != 0)
 		{
-			util->code = 1;	
+			util->code = 1;
 			perror("cd");
-			return ;
+			free(path);
+			return (1);
 		}
 		util->code = 0;
+	}
+	free(path);
+	return (0);
+}
+
+int	oldpwd_cd(t_exec_utils *util, char **args)
+{
+	char	*oldpwd;
+	char	*path;
+
+	oldpwd = get_cd_path(&util->env, "OLDPWD");
+	path = ft_strdup(args[1]);
+	if (path)
+	{
+		if (!ft_strcmp(path, "-"))
+			path = ft_strdup(oldpwd);
+		else
+			return (0);
+		if (chdir(path) != 0)
+		{
+			util->code = 1;
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+			free(path);
+			return (1);
+		}
+		util->code = 0;
+		free(path);
+		return (1);
+	}
+	free(path);
+	return (0);
+}
+
+void	change_dir(t_exec_utils *util, char **args)
+{
+	if (home_cd(util, args) == 1)
+	{
+		return ;
+	}
+	if (oldpwd_cd(util, args) == 1)
+	{
+		return ;
+	}
+	if (path_cd(util, args))
+	{
+		return ;
 	}
 }

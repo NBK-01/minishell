@@ -1,47 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 16:21:00 by nbk               #+#    #+#             */
+/*   Updated: 2024/09/03 21:03:06 by nbk              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include "../includes/execute.h"
 
-void print_env_list(t_env *list) {
-    while (list) {
-        printf("%s=%s\n", list->key, list->value);
-        list = list->next;
-    }
-}
-void free_env_node(t_env *node) {
-    if (node) {
-        free(node->key);
-        free(node->value);
-        free(node);
-    }
+void	free_env_node(t_env *node)
+{
+	if (node)
+	{
+		free(node->key);
+		free(node->value);
+		free(node);
+	}
 }
 
-void delete_env_node(t_env **env_list, const char *key) {
-    if (env_list == NULL || *env_list == NULL) return;
+void	delete_env_node(t_env **env_list, const char *key)
+{
+	t_env	*current;
+	t_env	*prev;
 
-    t_env *current = *env_list;
-    t_env *prev = NULL;
-
-    // If the node to be deleted is the first node
-    if (current != NULL && strcmp(current->key, key) == 0) {
-        *env_list = current->next; // Change head
-        free_env_node(current); // Free old head
-        return;
-    }
-
-    // Search for the key to be deleted
-    while (current != NULL && strcmp(current->key, key) != 0) {
-        prev = current;
-        current = current->next;
-    }
-
-    // If the key was not found
-    if (current == NULL) return;
-
-    // Unlink the node from the list
-    prev->next = current->next;
-
-    // Free memory
-    free_env_node(current);
+	if (env_list == NULL || *env_list == NULL)
+		return ;
+	current = *env_list;
+	prev = NULL;
+	if (current != NULL && strcmp(current->key, key) == 0)
+	{
+		printf("OOOOOOOO\n");
+		*env_list = current->next;
+		free_env_node(current);
+		return ;
+	}
+	while (current != NULL && strcmp(current->key, key) != 0)
+	{
+		prev = current;
+		current = current->next;
+	}
+	if (current == NULL)
+		return ;
+	prev->next = current->next;
+	free_env_node(current);
 }
 
 void	internal_unset(t_env **env, char *key)
@@ -51,13 +57,16 @@ void	internal_unset(t_env **env, char *key)
 	delete_env_node(env, key);
 }
 
-void	exec_unset(t_env **env_list, char **keys) {
-    if (env_list == NULL || keys == NULL) return;
+void	exec_unset(t_env **env_list, char **keys)
+{
+	int	i;
 
-    for (int i = 0; keys[i] != NULL; i++) {
-        delete_env_node(env_list, keys[i]);
-    }
-	//printf("POST UNSET:\n");
-	//print_env_list((*env_list));
+	if (env_list == NULL || keys == NULL)
+		return ;
+	i = 1;
+	while (keys[i])
+	{
+		delete_env_node(env_list, keys[i]);
+		i++;
+	}
 }
-

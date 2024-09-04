@@ -3,49 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:52 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/02 13:52:12 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 16:14:13 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	printf_list(t_env *env)
+void	print_env_list(t_env *list)
 {
-	t_env	*head;
-
-	head = env;
-	if (!head)
-		return ;
-	while (head)
-	{
-		printf("%s\n", head->key);
-		head = head->next;
-	}
-}
-
-void print_env2_list(t_env *list) 
-{
-    while (list) 
+	while (list)
 	{
 		if (list->hidden == 0)
 			printf("%s=%s\n", list->key, list->value);
-        list = list->next;
-    }
+		list = list->next;
+	}
 }
 
 void	exec_env(t_env **env, char **args)
 {
 	t_env	*head;
+	char	*delim;
 
 	head = (*env);
 	if (!args[1])
-		print_env2_list((*env));
+		print_env_list((*env));
 	if (args[1])
 	{
-		char *delim;
 		delim = ft_strchr(args[1], '$');
 		while (head)
 		{

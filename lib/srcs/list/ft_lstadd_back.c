@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:36:11 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/07/29 13:56:18 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:19:39 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,19 @@ void	l_lstadd_back(t_lex_ll **lst, t_lex_ll *new)
 	end->next = new;
 }
 
+void	env_lstadd_back(t_env **env, t_env *new)
+{
+	t_env	*end;
 
-void env_lstadd_back(t_env **env, t_env *new) {
-    if (env == NULL || new == NULL) return;
-    if (*env == NULL) {
-        *env = new;
-        return;
-    }
-    t_env *end = *env;
-    while (end->next != NULL) {
-        end = end->next;
-    }
-    end->next = new;
+	end = (*env);
+	if (env == NULL || new == NULL)
+		return ;
+	if (*env == NULL)
+	{
+		(*env) = new;
+		return ;
+	}
+	while (end->next)
+		end = end->next;
+	end->next = new;
 }
-

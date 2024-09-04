@@ -1,28 +1,16 @@
-# include "../../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_ll.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 15:52:00 by nbk               #+#    #+#             */
+/*   Updated: 2024/09/03 15:52:22 by nbk              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	modify_shell_lvl(t_env *env)
-{
-	t_env	*head;
-	char	*level;
-	int	nbr;
-	t_env	*new;
-
-	head = env;
-	while (head)
-	{
-		if (!ft_strcmp(head->key, "SHLVL"))
-		{
-			nbr = ft_atoi(head->value);
-			nbr += 1;
-			level = ft_itoa(nbr);
-			head->value = ft_strdup(level);
-            return ;
-		}
-		head = head->next;
-	}
-	new = env_lstnew("SHLVL", "0", 0);
-	env_lstadd_back(&env, new);
-}
+#include "../../../includes/minishell.h"
 
 char *get_key(const char *str)
 {
@@ -61,6 +49,7 @@ void copy_env(t_env **env_ll, char **env) {
     char *key;
     char *value;
     t_env *new;
+    
 
     i = 0;
     while (env[i]) {
@@ -76,11 +65,15 @@ void copy_env(t_env **env_ll, char **env) {
     env_lstadd_back(env_ll, new);
     int	fd = open("/proc/self/stat", O_RDONLY);
     char *line;
-    char **split;
+    char **split = NULL;
     line = get_next_line(fd);
-	split = ft_split(line, ' ');
+    if (line)
+	    split = ft_split(line, ' ');
 	
-    new = env_lstnew("$", split[3], 2);
+    if (split)
+        new = env_lstnew("$", split[3], 2);
+    else
+        new = env_lstnew("$", "123", 2);
     env_lstadd_back(env_ll, new);
     (*env_ll)->og = env;
 }
