@@ -6,10 +6,9 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 11:57:01 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/07 09:07:10 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/04 19:17:40 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../../includes/minishell.h"
 #include "../../../includes/lexer.h"
@@ -28,7 +27,7 @@ int	l_assign_type(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\\' || c == '\n')
 		return (return_whitespaces(c));
-	if (c == '|' || c == '<' || c == '>' || c == '&' 
+	if (c == '|' || c == '<' || c == '>' || c == '&'
 		|| c == ';' || c == '=')
 		return (return_operators(c));
 	if (c == 34 || c == 39 || c == '(' || c == ')')
@@ -41,7 +40,6 @@ int	l_assign_type(char c)
 
 void	l_terminate_token(t_lexer *lex, t_token **token)
 {
-
 	if (lex->util->j > 0)
 	{
 		(*token)->value[lex->util->j] = '\0';

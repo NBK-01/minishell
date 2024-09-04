@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:03:00 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/02 14:49:40 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/04 17:07:53 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	exec_pwd(char **args, t_exec_utils **util)
 {
-	char *cwd;
+	char	*cwd;
 
 	if (args[1] && ft_strchr(args[1], '-'))
 	{
@@ -25,7 +25,7 @@ void	exec_pwd(char **args, t_exec_utils **util)
 		return ;
 	}
 	cwd = getcwd(NULL, 0);
-	if (cwd == NULL) 
+	if (cwd == NULL)
 		perror("pwd");
 	printf("%s\n", cwd);
 }

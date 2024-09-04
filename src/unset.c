@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:21:00 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/03 21:03:06 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 19:16:25 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	delete_env_node(t_env **env_list, const char *key)
 	prev = NULL;
 	if (current != NULL && strcmp(current->key, key) == 0)
 	{
-		printf("OOOOOOOO\n");
 		*env_list = current->next;
 		free_env_node(current);
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   e_execution.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:17 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 21:09:17 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 17:08:28 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,21 +208,19 @@ if (stat(path, &statbuf) == 0)
 	if (handle_exit(util, node->args))
 		return (util->code);
     }
-    if (!ft_strcmp(node->args[0], "cd"))
+	if (!ft_strcmp(node->args[0], "env"))
+    {
+        exec_env(env, node->args);
+        return(util->code);
+    }
+	if (!ft_strcmp(node->args[0], "cd"))
     {
 		oldpwd = getcwd(NULL, 0);
 		change_dir(util, node->args);
 		modify_oldpwd(&util->env, oldpwd);
 		return (util->code);
     }
-    pid = fork();
-    if (pid == 0)
-    {
-	if (!ft_strcmp(node->args[0], "env"))
-    {
-        exec_env(env, node->args);
-        return(util->code);
-    }
+
 	if (!ft_strcmp(node->args[0], "pwd"))
     {
         exec_pwd(node->args, &util);
@@ -239,6 +237,9 @@ if (stat(path, &statbuf) == 0)
         exec_export(env, util, node->args);
 		return (util->code);
 	}
+        pid = fork();
+    if (pid == 0)
+    {
 		e_redirection(node, util);
 		if (path)
 		{
@@ -259,7 +260,6 @@ if (stat(path, &statbuf) == 0)
         {
             util->code = WEXITSTATUS(status);
             util->exit_code = WEXITSTATUS(status);
-			exit(util->code);
         }
         else
         {

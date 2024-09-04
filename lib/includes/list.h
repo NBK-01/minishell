@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:24:40 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/03 15:15:23 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 15:38:34 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int			ft_lstsize(t_list *lst);
 void		ft_lstclear(t_list **lst);
 void		l_lstadd_back(t_lex_ll **lst, t_lex_ll *new);
 void		env_lstadd_back(t_env **env, t_env *new);
+t_env		*ft_lstcpy(t_env **stack);
 
 #endif

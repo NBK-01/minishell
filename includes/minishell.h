@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:40:59 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 15:54:13 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 17:07:02 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@
 /*/////////////////////////////////////////////////////////////
 ////////////		INITS			    //////////
 ////////////////////////////////////////////////////////////*/
-void	init_shell(t_env *env);
-char	**copy_2d_array(char **str);
-char	*fun_prompt(void);
-void	clear_prompts(void);
+void	prompt_loop(t_env *env);
+void	init_shell(t_lexer *lex, t_exec_utils *util,
+			t_syntax_tree *tree, t_env **env);
 void	l_recursive_print(t_lexer *lex, int id);
 void	modify_oldpwd(t_env **env, char *oldpwd);
-
 void	print_env(t_env **head);
 void	split_env(char *env_str, char **key, char **value);
 void	copy_env(t_env	**env_ll, char **env);

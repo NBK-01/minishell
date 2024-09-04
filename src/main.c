@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:02:37 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 21:17:46 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 19:39:10 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,12 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		exit(printf("Invalid args\n"));
 	else
-		init_shell(env_ll);
+		prompt_loop(env_ll);
+	while (env_ll)
+	{
+		free(env_ll->key);
+		free(env_ll->value);
+		env_ll = env_ll->next;
+	}
+	free(env_ll);
 }

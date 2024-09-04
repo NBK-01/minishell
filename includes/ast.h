@@ -38,11 +38,6 @@ typedef struct s_ast_node
 	int	exit;
 }	t_ast_node;
 
-typedef struct s_syntax_tree
-{
-	struct s_ast_node	*branch;
-}	t_syntax_tree;
-
 typedef struct s_ast_utils
 {
 	char	**files;
@@ -68,6 +63,7 @@ int	p_parse_simple_command(t_ast_utils **util, t_token *token);
 int	p_parse_pipeline(t_ast_utils **util, t_token **token);
 int	p_parse_operators(t_ast_utils **util, t_token **token);
 int	p_parse_redirect(t_ast_utils **util, t_token **token);
+void	redirect_access(t_ast_utils **util);
 /* 
  * Create function for all cases :::
  * -> REDIRECT IN
@@ -79,6 +75,7 @@ int	p_parse_redirect(t_ast_utils **util, t_token **token);
  *  -> AND - OR - PIPE ---- IN THIS ORDER
  *  AFER BUILDING SINGLE NODES APPEND INTO MAIN STRUCT TO EXECUTE BASED ON PRIORITY ??
  */
+void	redirect_access_in(t_ast_utils **util);
 t_ast_node	*p_build_simple_command(t_ast_utils *util);
 t_ast_node	*p_build_separator(t_ast_node *left, t_ast_node *right, int type);
 // ITERATE THROUGH TOKEN LIST IF NO DELIMITER APPEND TO SIMPLE COMMAND

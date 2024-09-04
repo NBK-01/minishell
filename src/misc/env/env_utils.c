@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:51:52 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/03 15:53:21 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 19:42:32 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+#include "../../../includes/builtins.h"
 
 void	modify_oldpwd(t_env **env, char *oldpwd)
 {
@@ -47,10 +48,74 @@ void	modify_shell_lvl(t_env *env)
 			nbr += 1;
 			level = ft_itoa(nbr);
 			head->value = ft_strdup(level);
+			free(level);
 			return ;
 		}
 		head = head->next;
 	}
 	new = env_lstnew("SHLVL", "0", 0);
 	env_lstadd_back(&env, new);
+	free(new);
+}
+
+char	*get_key_exp(char *str)
+{
+	char	*temp;
+	char	*delim;
+	char	*key;
+
+	temp = ft_strdup(str);
+	delim = ft_strchr(temp, '=');
+	if (delim != NULL)
+	{
+		*delim = '\0';
+		key = strdup(temp);
+	}
+	else
+		key = strdup(temp);
+	free(temp);
+	return (key);
+}
+
+char	*get_value_exp(char *str)
+{
+	char	*temp;
+	char	*delim;
+	char	*value;
+
+	temp = ft_strdup(str);
+	delim = ft_strchr(temp, '=');
+	if (delim != NULL)
+		value = strdup(delim + 1);
+	else
+		value = NULL;
+	free(temp);
+	return (value);
+}
+
+int	exec_export_body(t_env **env, char **args)
+{
+	char	*key;
+	char	*value;
+	t_env	*new;
+	int		flag;
+
+	if (valid_export(args) == 1)
+		return (1);
+	if (!add_new_env(args, env))
+		return (0);
+	if (valid_export(args) > 1)
+		return (export_multi_args(env, args));
+	else
+	{
+		key = ft_strdup(args[1]);
+		value = ft_strdup(args[3]);
+	}
+	change_env_values(env, value, key, &flag);
+	if (flag)
+	{
+		new = env_lstnew(key, value, 0);
+		env_lstadd_back(env, new);
+	}
+	return (10);
 }

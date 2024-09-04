@@ -6,14 +6,15 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:27 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/07 09:07:27 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/04 17:27:03 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../includes/minishell.h"
 #include "../../../../includes/lexer.h"
 
-void	l_tokenize_ampersand(t_lexer *lex, t_token **token, int *state, int type)
+void	l_tokenize_ampersand(t_lexer *lex, t_token **token,
+			int *state, int type)
 {
 	int	len;
 

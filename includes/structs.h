@@ -8,6 +8,11 @@ struct s_lexer;
 struct s_token;
 struct s_lex_util;
 
+typedef struct s_syntax_tree
+{
+	struct s_ast_node	*branch;
+}	t_syntax_tree;
+
 typedef struct	s_env
 {
 	char	**og;
@@ -18,6 +23,13 @@ typedef struct	s_env
 	int	hidden;
 }	t_env;
 
+typedef struct s_exec_utils
+{
+	int	code;
+	int	exit_code;
+	int	code_count;
+	t_env	*env;
+}   t_exec_utils;
 
 typedef struct s_lex_ll
 {

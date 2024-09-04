@@ -6,10 +6,9 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:00 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/15 16:48:22 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/04 19:33:23 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/lexer.h"
 
@@ -29,27 +28,35 @@ t_token	*l_vars_init(char *input, t_lexer *lex, t_token *token, t_env *env)
 
 void	init_token(t_token *token, int n, int id)
 {
-	token->value = ft_calloc(1, n + 1);
+	token->value = malloc(sizeof(char) * (n + 1));
 	token->value[0] = TYPE_NULL;
 	token->type = TYPE_NULL;
 	token->id = id + 1;
 	token->next = NULL;
 }
 
+int	set_type(t_lexer **lex)
+{
+	int		type;
+
+	(*lex)->util->c = *(*lex)->util->input_ptr;
+	type = l_assign_type((*lex)->util->c);
+	return (type);
+}
+
 int	init_lexer(char *input, t_lexer **lex, t_token **token, t_env *env)
 {
-	int	state;
-	int	type;
+	int		state;
+	int		type;
 	size_t	len;
 
 	len = ft_strlen(input);
 	state = STATE_ANY;
 	(*token) = l_vars_init(input, (*lex), (*token), env);
 	init_token((*token), len, 0);
-	while (*(*lex)->util->input_ptr) 
+	while (*(*lex)->util->input_ptr)
 	{
-		(*lex)->util->c = *(*lex)->util->input_ptr;
-		type = l_assign_type((*lex)->util->c);
+		type = set_type(lex);
 		if (l_tokenize((*lex), token, type, &state) == 1)
 		{
 			if ((*lex)->util->j > 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:37:49 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/03 20:51:15 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 15:14:28 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,13 @@ int	oldpwd_cd(t_exec_utils *util, char **args)
 
 void	change_dir(t_exec_utils *util, char **args)
 {
+	if (args[1] && args[2])
+	{
+		util->code = 1;
+		ft_putstr_fd("minishell: cd:", 2);
+		ft_putendl_fd(" too many arguments", 2);
+		return ;
+	}
 	if (home_cd(util, args) == 1)
 	{
 		return ;

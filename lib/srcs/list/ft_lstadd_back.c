@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:36:11 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 15:19:39 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 15:28:29 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,28 @@ void	env_lstadd_back(t_env **env, t_env *new)
 	while (end->next)
 		end = end->next;
 	end->next = new;
+}
+
+t_env	*ft_lstcpy(t_env **stack)
+{
+	t_env	*src;
+	t_env	*dest;
+	t_env	**temp;
+
+	src = *stack;
+	dest = NULL;
+	temp = &dest;
+	while (src)
+	{
+		*temp = (t_env *)malloc(sizeof(t_env));
+		if (!*temp)
+			return (NULL);
+		(*temp)->key = src->key;
+		(*temp)->value = src->value;
+		(*temp)->hidden = src->hidden;
+		(*temp)->next = NULL;
+		temp = &((*temp)->next);
+		src = src->next;
+	}
+	return (dest);
 }

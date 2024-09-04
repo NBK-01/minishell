@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   l_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:38 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 15:13:31 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 18:12:11 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 	char	**matches;
 	char	*expanded;
 
-	
 	token = lex->token_list;
 	while (token)
 	{
@@ -191,7 +190,7 @@ int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 		{
 			matches = l_glob(token->value, &hits);
 			if (hits > 0)
-				l_handler_wildcards(token, hits, matches);			
+				l_handler_wildcards(token, hits, matches);
 			else
 				token->value = l_remove_quotes(token);
 			expanded = expand_variables(token->value, lex->util, env);
@@ -239,8 +238,104 @@ void	l_tokenize_next(t_lexer *lex, t_token **token, int type, int len)
 		(*token)->type = type;
 		(*token)->next = ft_calloc(1, sizeof(t_token));
 		if ((*token)->next == NULL)
-			return;
+			return ;
 		init_token((*token)->next, len - lex->util->i, (*token)->id);
 		*token = (*token)->next;
 	}
+}
+
+//cat    <| ls 
+int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
+{
+	t_token	*temp;
+
+	temp = (*lex)->token_list;
+	if (!ft_strcmp(temp->value, "|") || !ft_strcmp(temp->value, "||")
+		|| !ft_strcmp(temp->value, "&&") || !ft_strcmp(temp->value, ">>")
+		|| !ft_strcmp(temp->value, ">") || !ft_strcmp(temp->value, ";"))
+	{
+		ft_putendl_fd("Syntax Error", 2);
+		(*utils)->code = 2;
+		return (0);
+	}
+	if (!ft_strcmp(temp->value, "<") || !ft_strcmp(temp->value, "<<"))
+	{
+		if (!temp->next || temp->next->type != TYPE_WORD)
+		{
+			ft_putendl_fd("Syntax Er333ror", 2);
+			(*utils)->code = 2;
+			return (0);
+		}
+	}
+	while (temp)
+	{
+		if (temp->type == TYPE_LPAREN)
+		{
+			if (!temp->sub_lexer || !temp->sub_lexer->token_list->value[0])
+			{
+				ft_putendl_fd("Syntax Er222ror", 2);
+				(*utils)->code = 2;
+				return (0);	
+			}
+			if (!validate_lexer(&temp->sub_lexer, utils))
+				return (0);
+		}
+		if (temp->next)
+		{
+			if (!ft_strcmp(temp->next->value, ";"))
+			{
+				if (temp->type != TYPE_WORD)
+				{
+					ft_putendl_fd("Syntax E22rror", 2);
+					(*utils)->code = 2;
+					return (0);
+				}
+			}
+			if (temp->next->type == TYPE_PIPE || !ft_strcmp(temp->next->value, "||")
+				|| !ft_strcmp(temp->next->value, "&&") || !ft_strcmp(temp->next->value, ">>")
+				|| !ft_strcmp(temp->next->value, ">") || !ft_strcmp(temp->next->value, "<")
+				|| !ft_strcmp(temp->next->value, "<<"))
+			{
+				if (!temp->next->next)
+				{
+					ft_putendl_fd("Syntax Error: here", 2);
+					(*utils)->code = 2;
+					return (0);
+				}
+                if (temp->next->type == TYPE_PIPE)
+                {
+                    if (temp->type != TYPE_WORD && (temp->next->next->type != TYPE_LSHIFT || temp->next->next->type != TYPE_RSHIFT
+                        || temp->next->next->type != TYPE_WORD || temp->next->next->type != TYPE_HEREDOC || temp->next->next->type != TYPE_APPEND))
+                        {
+                            ft_putendl_fd("Syntax Error", 2);
+					        (*utils)->code = 2;
+					        return (0);
+                        }
+                }
+				else if (!ft_strcmp(temp->next->value, ">>")
+				|| !ft_strcmp(temp->next->value, ">") || !ft_strcmp(temp->next->value, "<")
+				|| !ft_strcmp(temp->next->value, "<<"))
+                {
+                    if ((temp->type != TYPE_WORD || temp->type != TYPE_PIPE) && temp->next->next->type != TYPE_WORD)
+				    {
+					    ft_putendl_fd("Syntax Error: here", 2);
+					    (*utils)->code = 2;
+					    return (0);
+				    } 
+                }
+                else if (!ft_strcmp(temp->next->value, "||")
+				|| !ft_strcmp(temp->next->value, "&&"))
+                {
+                    if (temp->type != TYPE_WORD && temp->next->next->type != TYPE_WORD)
+				    {
+					    ft_putendl_fd("Syntax Error: here2", 2);
+					    (*utils)->code = 2;
+					    return (0);
+				    } 
+                }
+			} 
+		}
+		temp = temp->next;
+	}
+	return (1);
 }

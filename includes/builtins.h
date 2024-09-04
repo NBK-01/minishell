@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:41:09 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 15:36:43 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 16:58:19 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,14 @@ void	exec_unset(t_env **env, char **args);
 void	internal_unset(t_env **env, char *key);
 void	exec_export(t_env **env, t_exec_utils *util, char **args);
 void	exec_echo(t_ast_node *node, t_exec_utils **util);
+char	*get_key_exp(char *str);
+char	*get_value_exp(char *str);
+int		valid_multi_args(char **args);
+int		valid_identifiers(char **args);
+int		export_multi_args(t_env **env, char **args);
+int		exec_export_body(t_env **env, char **args);
+void	change_env_values(t_env **env, char *value, char *key, int *flag);
+int		add_new_env(char **args, t_env **env);
+int		valid_export(char **args);
 
 #endif

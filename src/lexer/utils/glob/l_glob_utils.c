@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   l_glob_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:20 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 20:20:04 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/04 18:06:16 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ int	l_glob_match(const char *pattern, const char *string)
 void	l_handler_wildcards(t_token *token, int count, char **glob_list)
 {
 	t_token	*store;
-	int	i = 0;
+	int		i;
 
+	i = 0;
 	store = token->next;
 	free(token->value);
 	token->value = ft_calloc(1, ft_strlen(glob_list[0]) + 1);
@@ -65,22 +66,23 @@ void	l_handler_wildcards(t_token *token, int count, char **glob_list)
 size_t	l_glob_count(const char *pattern)
 {
 	struct dirent	*entry;
-	DIR	*dir;
-	int	count;
+	DIR				*dir;
+	int				count;
 
 	count = 0;
 	dir = opendir(".");
+	entry = readdir(dir);
 	if (!dir)
 	{
 		perror("opendir");
 		return (0);
 	}
-	while ((entry = readdir(dir)))
+	while ((entry))
 	{
 		if (l_glob_match(pattern, entry->d_name))
 			count++;
+		entry = readdir(dir);
 	}
 	closedir(dir);
 	return (count);
-
 }

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:52:25 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/08/19 11:52:26 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/04 19:40:57 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 t_ast_node	*p_build_tree(t_token *token)
 {
 	t_ast_utils	*util;
-	int		flag2 = 0;
+	int			flag2;
 
+	flag2 = 0;
 	p_init_vars(&util);
 	while (token)
 	{

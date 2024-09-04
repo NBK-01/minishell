@@ -15,7 +15,8 @@
 
 static void	clean_input(char *input, char *res);
 
-void	l_state_handler_quote_in(t_lexer *lex, t_token **token, int type, int *state)
+void	l_state_handler_quote_in(t_lexer *lex, t_token **token,
+			int type, int *state)
 {
 	if (type == TYPE_QUOTE)
 	{
@@ -33,7 +34,8 @@ void	l_state_handler_quote_in(t_lexer *lex, t_token **token, int type, int *stat
 	}
 }
 
-void	l_state_handler_quote_exit(t_lexer *lex, t_token **token, int type, int *state)
+void	l_state_handler_quote_exit(t_lexer *lex, t_token **token,
+				int type, int *state)
 {
 	if ((*state) == IN_DQUOTES)
 	{
@@ -47,36 +49,42 @@ void	l_state_handler_quote_exit(t_lexer *lex, t_token **token, int type, int *st
 		if (type == TYPE_QUOTE)
 			(*state) = STATE_ANY;
 	}
-
 }
 
 char	*l_remove_quotes(t_token *token)
 {
-	char*	clean;
+	char	*clean;
 
 	clean = ft_calloc(1, ft_strlen(token->value) + 1);
 	clean_input(token->value, clean);
 	free(token->value);
-	return(clean);
+	return (clean);
+}
+
+int	clean_input_helper(int len, char *input, char *res)
+{
+	if (len <= 1)
+	{
+		ft_strcpy(res, input);
+		return (1);
+	}
+	return (0);
 }
 
 static void	clean_input(char *input, char *res)
 {
 	char	end_literal;
 	size_t	len;
-	size_t		i;
+	size_t	i;
 	int		j;
-	char		c;
+	char	c;
 
 	len = ft_strlen(input);
 	end_literal = 0;
 	j = 0;
 	i = 0;
-	if (len <= 1)
-	{
-		ft_strcpy(res, input);
+	if (clean_input_helper(len, input, res))
 		return ;
-	}
 	while (i < len)
 	{
 		c = input[i];
@@ -90,4 +98,3 @@ static void	clean_input(char *input, char *res)
 	}
 	res[j] = '\0';
 }
-
