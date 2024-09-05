@@ -10,7 +10,7 @@ CC = gcc
 
 CFLAGS = -g #-fsanitize=address
 
-SRCS = main echo exit pwd env cd unset export export_utils init/lexer init/shell init/parser init/execute misc/printing misc/env/env_ll misc/env/env_utils
+SRCS = main echo exit pwd env cd unset export export_utils init/lexer init/shell init/parser init/execute misc/printing misc/env/env_ll misc/env/env_utils misc/env/free
 
 BUILTIN_SRCS = handle_builtins
 

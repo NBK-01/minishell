@@ -54,8 +54,7 @@ void	env_lstadd_back(t_env **env, t_env *new)
 		(*env) = new;
 		return ;
 	}
-	while (end->next)
-		end = end->next;
+	end = env_lstlast(*env);
 	end->next = new;
 }
 

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:22:28 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/04 18:24:57 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/05 12:35:58 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	build_simple_command_vars(t_ast_node **node, t_ast_utils *util)
 t_ast_node	*p_build_simple_command(t_ast_utils *util)
 {
 	t_ast_node	*node;
+	char		*sub;
+	char		**split;
 
 	node = ft_calloc(1, sizeof(t_ast_node));
 	if (util->args)
@@ -52,6 +54,7 @@ t_ast_node	*p_build_separator(t_ast_node *left, t_ast_node *right, int type)
 {
 	t_ast_node	*node;
 	char		*delim;
+	char		**split;
 
 	node = ft_calloc(1, sizeof(t_ast_node));
 	node->left = left;

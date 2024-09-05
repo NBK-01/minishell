@@ -31,6 +31,9 @@ void	modify_oldpwd(t_env **env, char *oldpwd);
 void	print_env(t_env **head);
 void	split_env(char *env_str, char **key, char **value);
 void	copy_env(t_env	**env_ll, char **env);
-void	modify_shell_lvl(t_env *env);
+void	modify_shell_lvl(t_env **env);
+void	cleanup_resources(t_exec_utils *exec, t_lex_utils *lex);
+void	free_env(t_env **head);
+
 
 #endif

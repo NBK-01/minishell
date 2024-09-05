@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:52:00 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/04 19:46:29 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:11:36 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*get_value(char *str)
 	temp = ft_strdup(str);
 	delim = ft_strchr(temp, '=');
 	if (delim != NULL)
-		value = strdup(delim + 1);
+		value = ft_strdup(delim + 1);
 	else
 		value = NULL;
 	free(temp);
@@ -59,24 +59,23 @@ void	add_special_env(t_env **env_ll)
 	split = NULL;
 	new = env_lstnew("?", "0", 2);
 	env_lstadd_back(env_ll, new);
-	free(new);
 	fd = open("/proc/self/stat", O_RDONLY);
 	line = get_next_line(fd);
 	close(fd);
 	if (line)
 		split = ft_split(line, ' ');
 	if (split)
+	{
 		new = env_lstnew("$", split[3], 2);
+		int i = -1;
+		while (split[++i])
+			free(split[i]);
+		free(line);
+		free(split);
+	}
 	else
 		new = env_lstnew("$", "123", 2);
 	env_lstadd_back(env_ll, new);
-	int	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
-	free(new);
-	free(split);
-	free(line);
 }
 
 void	copy_env(t_env **env_ll, char **env)
@@ -93,7 +92,6 @@ void	copy_env(t_env **env_ll, char **env)
 		value = get_value(env[i]);
 		new = env_lstnew(key, value, 0);
 		env_lstadd_back(env_ll, new);
-		free(new);
 		free(key);
 		free(value);
 		i++;

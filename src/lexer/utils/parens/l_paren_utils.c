@@ -61,17 +61,7 @@ void l_recursive_fill(t_lexer *lex, int id)
         return;
     if (lex->token_list)
         fill_paran(lex->token_list, id);
-    if ((*lex->child))
-    {
-        child = (*lex->child);
-        while (child)
-        {
-            if (child->lexer)
-                l_recursive_fill(child->lexer, id + 1);
-            child = child->next;
-        }
-    }
-}
+ }
 
 void special_fill(int num, t_lexer *lexer)
 {

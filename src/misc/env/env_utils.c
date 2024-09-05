@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:51:52 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/04 19:42:32 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:06:10 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	modify_oldpwd(t_env **env, char *oldpwd)
 	env_lstadd_back(env, new);
 }
 
-void	modify_shell_lvl(t_env *env)
+void	modify_shell_lvl(t_env **env)
 {
 	t_env	*head;
 	char	*level;
 	int		nbr;
 	t_env	*new;
 
-	head = env;
+	head = (*env);
 	while (head)
 	{
 		if (!ft_strcmp(head->key, "SHLVL"))
@@ -54,8 +54,7 @@ void	modify_shell_lvl(t_env *env)
 		head = head->next;
 	}
 	new = env_lstnew("SHLVL", "0", 0);
-	env_lstadd_back(&env, new);
-	free(new);
+	env_lstadd_back(env, new);
 }
 
 char	*get_key_exp(char *str)

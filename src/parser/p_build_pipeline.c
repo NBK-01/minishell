@@ -13,15 +13,13 @@
 #include "../../includes/ast.h"
 #include "../../includes/token.h"
 
-t_ast_node	*p_build_pipeline(t_token **token)
+t_ast_node	*p_build_pipeline(t_token **token, t_ast_utils *util)
 {
-	t_ast_utils	*util;
 	int			flag;
 	int			flag2;
 
 	flag = 0;
 	flag2 = 0;
-	p_init_vars(&util);
 	while ((*token))
 	{
 		flag2 = 0;

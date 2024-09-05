@@ -62,9 +62,8 @@ typedef struct	s_lex_utils
 
 typedef struct s_lexer
 {
-	t_token	*token_list;
+	t_token		*token_list;
 	t_lex_utils	*util;
-	t_lex_ll	**child;
 	int		count;
 }	t_lexer;
 

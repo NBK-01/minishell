@@ -55,8 +55,8 @@ typedef struct s_ast_utils
 
 void	init_parser(t_lexer **lexer, t_syntax_tree **tree);
 void	p_expand_tree(t_ast_node *node);
-t_ast_node	*p_build_tree(t_token *token);
-t_ast_node	*p_build_pipeline(t_token **token);
+t_ast_node	*p_build_tree(t_token *token, t_ast_utils *util);
+t_ast_node	*p_build_pipeline(t_token **token, t_ast_utils *util);
 t_ast_utils	*p_init_vars(t_ast_utils **util);
 char	*p_create_cmd_args(char *value, char *args);
 int	p_parse_simple_command(t_ast_utils **util, t_token *token);

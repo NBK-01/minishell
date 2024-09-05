@@ -6,11 +6,28 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:39:01 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/04 14:44:42 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/05 12:28:26 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execute.h"
+
+void	free_tree(t_ast_node *node)
+{
+	int	i = 0;
+	if (!node)
+		return ;
+	if (node->args)
+	{
+		while (node->args[i])
+		{
+			free(node->args[i]);
+			i++;
+		}
+		free(node->args);
+	}
+	free(node);
+}
 
 int	init_execute(t_syntax_tree *tree, t_env **env, t_exec_utils **util)
 {

@@ -6,11 +6,24 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:27 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/04 19:04:15 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/05 12:53:32 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/execute.h"
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 char	*my_getenv(char *name, t_env *env_ll)
 {
@@ -33,8 +46,10 @@ char	*get_path(char **s_cmd, t_env **env_ll)
 	char	**allpath;
 	char	*path_part;
 	char	*path;
+	char	*temp;
 
 	i = -1;
+	allpath = NULL;
 	path = my_getenv("PATH", (*env_ll));
 	if (!path)
 		return (NULL);
@@ -44,11 +59,16 @@ char	*get_path(char **s_cmd, t_env **env_ll)
 	while (allpath[++i])
 	{
 		path_part = ft_strjoin(allpath[i], "/");
-		exec = ft_strjoin(path_part, s_cmd[0]);
+		temp = ft_strjoin(path_part, s_cmd[0]);
+		exec = temp;
 		free(path_part);
 		if (access(exec, F_OK | X_OK) == 0)
+		{
+			free_split(allpath);
 			return (exec);
+		}
 	}
+	free_split(allpath);
 	return (NULL);
 }
 
