@@ -16,13 +16,13 @@ t_token	*l_vars_init(char *input, t_lexer *lex, t_token *token, t_env *env)
 {
 	lex->token_list = malloc(sizeof(t_token));
 	lex->token_list = token;
+	lex->token_list->sub_lexer = NULL;
 	lex->util->i = 0;
 	lex->util->j = 0;
 	lex->util->input = input;
 	lex->util->input_ptr = input;
 	lex->util->expand = 1;
 	lex->util->env = env;
-	lex->child = ft_calloc(1, sizeof(t_lex_ll));
 	return (token);
 }
 
