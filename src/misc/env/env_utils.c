@@ -55,7 +55,6 @@ void	modify_shell_lvl(t_env *env)
 	}
 	new = env_lstnew("SHLVL", "0", 0);
 	env_lstadd_back(&env, new);
-	free(new);
 }
 
 char	*get_key_exp(char *str)

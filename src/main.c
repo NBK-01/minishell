@@ -25,11 +25,4 @@ int	main(int ac, char **av, char **env)
 		exit(printf("Invalid args\n"));
 	else
 		prompt_loop(env_ll);
-	while (env_ll)
-	{
-		free(env_ll->key);
-		free(env_ll->value);
-		env_ll = env_ll->next;
-	}
-	free(env_ll);
 }

@@ -59,7 +59,6 @@ void	add_special_env(t_env **env_ll)
 	split = NULL;
 	new = env_lstnew("?", "0", 2);
 	env_lstadd_back(env_ll, new);
-	free(new);
 	fd = open("/proc/self/stat", O_RDONLY);
 	line = get_next_line(fd);
 	close(fd);
@@ -73,8 +72,6 @@ void	add_special_env(t_env **env_ll)
 	int	i = -1;
 	while (split[++i])
 		free(split[i]);
-	free(split);
-	free(new);
 	free(split);
 	free(line);
 }
@@ -93,7 +90,6 @@ void	copy_env(t_env **env_ll, char **env)
 		value = get_value(env[i]);
 		new = env_lstnew(key, value, 0);
 		env_lstadd_back(env_ll, new);
-		free(new);
 		free(key);
 		free(value);
 		i++;
