@@ -20,9 +20,7 @@ t_list	*ft_lstlast(t_list *lst)
 	if (!temp)
 		return (NULL);
 	while (temp->next != NULL)
-	{
 		temp = temp->next;
-	}
 	return (temp);
 }
 
@@ -34,9 +32,7 @@ t_lex_ll	*l_lstlast(t_lex_ll *lst)
 	if (!temp)
 		return (NULL);
 	while (temp->next != NULL)
-	{
 		temp = temp->next;
-	}
 	return (temp);
 }
 
@@ -48,8 +44,6 @@ t_env	*env_lstlast(t_env *lst)
 	if (!temp)
 		return (NULL);
 	while (temp->next != NULL)
-	{
 		temp = temp->next;
-	}
 	return (temp);
 }

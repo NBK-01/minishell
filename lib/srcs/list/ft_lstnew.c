@@ -43,11 +43,8 @@ t_env	*env_lstnew(char *key, char *value, int hidden)
 
 	new = malloc(sizeof(t_env));
 	new->hidden = hidden;
-	new->key = ft_strdup(key);
-	if (!value)
-		new->value = ft_strdup("");
-	else
-		new->value = ft_strdup(value);
+	new->key = key;
+	new->value = value;
 	new->next = NULL;
 	return (new);
 }

@@ -54,7 +54,6 @@ void	modify_exit_code(t_exec_utils *util, t_env *env)
 	{
 		new = env_lstnew("?", code, 2);
 		env_lstadd_back(&env, new);
-		free(new);
 		free(code);
 	}
 	free(code);
@@ -88,7 +87,7 @@ void	prompt_loop(t_env *env)
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;
-	tree = malloc(sizeof(t_syntax_tree));
+	tree = ft_calloc(1, sizeof(t_syntax_tree));
 	lex = malloc(sizeof(t_lexer));
 	lex->util = malloc(sizeof(t_lex_utils));
 	lex->util->rec_count = 0;
@@ -102,9 +101,11 @@ void	prompt_loop(t_env *env)
 		if (!input)
 			break ;
 		free(input);
-		env->code = util->code;
 		lex->util->rec_count = 0;
+		if (tree && tree->branch)
+			free_ast(tree->branch);
+		free_token_ll(lex->token_list);
 	}
+	free(lex->util);
 	free(util);
-	free_token_ll(lex->token_list);
 }

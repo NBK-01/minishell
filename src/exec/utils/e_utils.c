@@ -47,10 +47,16 @@ char	*get_path(char **s_cmd, t_env **env_ll)
 		exec = ft_strjoin(path_part, s_cmd[0]);
 		free(path_part);
 		if (access(exec, F_OK | X_OK) == 0)
+		{
+			free_split(allpath);
 			return (exec);
+		}
 	}
+	free_split(allpath);
 	return (NULL);
 }
+
+
 
 void	handle_doc(char *lim, int pipefd[2])
 {

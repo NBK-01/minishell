@@ -16,7 +16,8 @@
 
 t_ast_node	*p_build_tree(t_token *token)
 {
-	t_ast_utils	*util;
+	t_ast_utils		*util;
+	t_ast_node		*node;
 	int			flag2;
 
 	flag2 = 0;
@@ -50,5 +51,7 @@ t_ast_node	*p_build_tree(t_token *token)
 	}
 	if (!(util->node))
 		util->node = p_build_simple_command(util);
-	return (util->node);
+	node = util->node;
+	free(util);
+	return (node);
 }

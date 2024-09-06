@@ -36,7 +36,7 @@ void	modify_shell_lvl(t_env *env)
 {
 	t_env	*head;
 	char	*level;
-	int		nbr;
+	int	nbr;
 	t_env	*new;
 
 	head = env;
@@ -47,8 +47,7 @@ void	modify_shell_lvl(t_env *env)
 			nbr = ft_atoi(head->value);
 			nbr += 1;
 			level = ft_itoa(nbr);
-			head->value = ft_strdup(level);
-			free(level);
+			head->value = level;
 			return ;
 		}
 		head = head->next;
@@ -97,7 +96,7 @@ int	exec_export_body(t_env **env, char **args)
 	char	*key;
 	char	*value;
 	t_env	*new;
-	int		flag;
+	int	flag;
 
 	if (valid_export(args) == 1)
 		return (1);

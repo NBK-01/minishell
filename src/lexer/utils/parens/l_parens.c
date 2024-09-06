@@ -36,7 +36,7 @@ int	handle_paren(t_lexer **lex, t_token **token, int *state, int type)
 		(*token)->type = type;
 		(*state) = IN_PARAN;
 		(*lex)->util->input_ptr++;
-		(*token)->sub_lexer = malloc(sizeof(t_lexer));
+		(*token)->sub_lexer = ft_calloc(1, sizeof(t_lexer));
 		(*token)->sub_lexer->util = malloc(sizeof(t_lex_utils));
 		(*token)->sub_lexer->util->rec_count = (*lex)->util->rec_count + 1;
 		c_token = malloc(sizeof(t_token));

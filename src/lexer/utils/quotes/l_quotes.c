@@ -76,7 +76,7 @@ static void	clean_input(char *input, char *res)
 	char	end_literal;
 	size_t	len;
 	size_t	i;
-	int		j;
+	int	j;
 	char	c;
 
 	len = ft_strlen(input);

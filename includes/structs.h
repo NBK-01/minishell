@@ -8,6 +8,32 @@ struct s_lexer;
 struct s_token;
 struct s_lex_util;
 
+typedef enum node_type
+{
+	AST_PIPE,
+	AST_COMMAND,
+	AST_AND,
+	AST_OR,
+}	e_node_type;
+
+
+typedef struct s_ast_node
+{
+	char			**args;
+	char			*in;
+	char			*out;
+	struct s_ast_node	*left;  // Normal binary tree
+	struct s_ast_node	*right; // Normal binary tree node
+	struct s_syntax_tree	*tree_link;
+	struct s_lexer			**lexer;
+	e_node_type		type;
+	struct s_token			*sub;
+	int			append;
+	int			here_doc;
+	int	exit;
+}	t_ast_node;
+
+
 typedef struct s_syntax_tree
 {
 	struct s_ast_node	*branch;
@@ -15,11 +41,9 @@ typedef struct s_syntax_tree
 
 typedef struct	s_env
 {
-	char	**og;
 	char	*key;
 	char	*value;
 	struct s_env	*next;
-	int		code;
 	int	hidden;
 }	t_env;
 
@@ -62,7 +86,7 @@ typedef struct	s_lex_utils
 
 typedef struct s_lexer
 {
-	t_token	*token_list;
+	t_token		*token_list;
 	t_lex_utils	*util;
 	t_lex_ll	**child;
 	int		count;

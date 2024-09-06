@@ -25,4 +25,5 @@ int	main(int ac, char **av, char **env)
 		exit(printf("Invalid args\n"));
 	else
 		prompt_loop(env_ll);
+	free_env_list(&env_ll);
 }

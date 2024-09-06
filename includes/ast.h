@@ -14,30 +14,6 @@ struct s_synatx_tree;
 #define ASSIGN_TYPE(type) (type == TYPE_PIPE) ? AST_PIPE: (type == TYPE_AND) ? AST_AND:  (type == TYPE_OR) ? AST_OR: 0
 
 // Follow BNF Format
-typedef enum node_type
-{
-	AST_PIPE,
-	AST_COMMAND,
-	AST_AND,
-	AST_OR,
-}	e_node_type;
-
-typedef struct s_ast_node
-{
-	char			**args;
-	char			*in;
-	char			*out;
-	struct s_ast_node	*left;  // Normal binary tree
-	struct s_ast_node	*right; // Normal binary tree node
-	struct s_syntax_tree	*tree_link;
-	t_lexer			**lexer;
-	e_node_type		type;
-	t_token			*sub;
-	int			append;
-	int			here_doc;
-	int	exit;
-}	t_ast_node;
-
 typedef struct s_ast_utils
 {
 	char	**files;

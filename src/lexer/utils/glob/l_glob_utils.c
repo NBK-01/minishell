@@ -52,6 +52,7 @@ void	l_handler_wildcards(t_token *token, int count, char **glob_list)
 	free(token->value);
 	token->value = ft_calloc(1, ft_strlen(glob_list[0]) + 1);
 	ft_strcpy(token->value, glob_list[0]);
+	free(glob_list[0]);
 	while (++i < count)
 	{
 		token->next = ft_calloc(1, sizeof(t_token));
@@ -59,7 +60,9 @@ void	l_handler_wildcards(t_token *token, int count, char **glob_list)
 		token = token->next;
 		token->type = TOKEN;
 		ft_strcpy(token->value, glob_list[i]);
+		free(glob_list[i]);
 	}
+	free(glob_list);
 	token->next = store;
 }
 

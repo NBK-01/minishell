@@ -23,6 +23,10 @@
 /*/////////////////////////////////////////////////////////////
 ////////////		INITS			    //////////
 ////////////////////////////////////////////////////////////*/
+void	free_env_list(t_env **env);
+void	free_split(char **split);
+void	free_ast(t_ast_node *node);
+void	free_lexer(t_lexer *lex);
 void	prompt_loop(t_env *env);
 void	init_shell(t_lexer *lex, t_exec_utils *util,
 			t_syntax_tree *tree, t_env **env);

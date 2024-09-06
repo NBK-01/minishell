@@ -22,7 +22,8 @@ int	p_parse_in(t_ast_utils **util, t_token **token)
 	if ((*token)->next && (*token)->next->type == TOKEN)
 	{
 		(*util)->files[1] = ft_strdup((*token)->next->value);
-		redirect_access_in(util);
+		if (!(*util)->here_doc)
+			redirect_access_in(util);
 	}
 	if ((*token)->next && (*token)->next->next)
 		(*token) = (*token)->next->next;

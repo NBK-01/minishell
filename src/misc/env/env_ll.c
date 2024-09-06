@@ -49,10 +49,11 @@ char	*get_value(char *str)
 	return (value);
 }
 
+
 void	add_special_env(t_env **env_ll)
 {
 	t_env	*new;
-	int		fd;
+	int	fd;
 	char	*line;
 	char	**split;
 
@@ -69,10 +70,7 @@ void	add_special_env(t_env **env_ll)
 	else
 		new = env_lstnew("$", "123", 2);
 	env_lstadd_back(env_ll, new);
-	int	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
+	free_split(split);
 	free(line);
 }
 
@@ -90,8 +88,6 @@ void	copy_env(t_env **env_ll, char **env)
 		value = get_value(env[i]);
 		new = env_lstnew(key, value, 0);
 		env_lstadd_back(env_ll, new);
-		free(key);
-		free(value);
 		i++;
 	}
 	add_special_env(env_ll);

@@ -55,22 +55,43 @@ void	redirect_access(t_ast_utils **util)
 	close(fd);
 }
 
-char	*p_create_cmd_args(char *value, char *args)
+char *p_create_cmd_args(char *value, char *args)
 {
-	char	*whitespace;
-	char	*temp;
+    char *whitespace = NULL;
+    char *temp = NULL;
 
-	if (!args)
-		args = ft_strdup(value);
-	else
-	{
-		whitespace = ft_strjoin(args, " ");
-		temp = ft_strjoin(whitespace, value);
-		free(whitespace);
-		free(args);
-		args = temp;
-	}
-	return (args);
+    if (!args)
+    {
+        // Allocate memory for the initial `args`
+        args = ft_strdup(value);
+        if (!args)
+            return NULL; // Handle allocation failure
+    }
+    else
+    {
+        // Allocate memory for the `whitespace` string
+        whitespace = ft_strjoin(args, " ");
+        if (!whitespace)
+        {
+            free(args); // Free the original `args` if allocation fails
+            return NULL; // Handle allocation failure
+        }
+
+        // Allocate memory for the final concatenated `args`
+        temp = ft_strjoin(whitespace, value);
+        if (!temp)
+        {
+            free(whitespace); // Free `whitespace` if `temp` allocation fails
+            free(args); // Free the original `args`
+            return NULL; // Handle allocation failure
+        }
+
+        // Free the old `args` and `whitespace` memory
+        free(whitespace);
+        free(args);
+        args = temp;
+    }
+    return args;
 }
 
 t_ast_utils	*p_init_vars(t_ast_utils **util)

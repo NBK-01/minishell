@@ -137,141 +137,164 @@ char **copy_list_to_array(t_env *head) {
     return array;
 }
 
-int	e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env)
-{
-	struct stat	statbuf;
-	char		**array;
-	char		*path;
-	int			status;
-	pid_t		pid;
 
-	if (!ft_strcmp(node->args[0], "echo"))
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			e_redirection(node, util);
-			exec_echo(node, &util);
-			exit(0);
-		}
-		else if (pid > 0)
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-			{
-				util->code = WEXITSTATUS(status);
-				util->exit_code = WEXITSTATUS(status);
-			}
-			else
-			{
-				util->code = EXIT_FAILURE;
-				util->exit_code = EXIT_FAILURE;
-			}
-			return (util->code);
-		}
-	}
-   
-  
+int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env)
+{
+    struct stat statbuf;
+    char **array = NULL;
+    char *path = NULL;
+    pid_t pid;
+    int status;
+
+    // Determine the path to execute
     if (!ft_strncmp(node->args[0], "/", 1) || !ft_strncmp(node->args[0], "./", 2))
         path = ft_strdup(node->args[0]);
     else
         path = get_path(node->args, env);
- 
-if (stat(path, &statbuf) == 0)
-	{
-		if (S_ISDIR(statbuf.st_mode))
-		{
-			ft_putendl_fd(" Is a directory", 2);
-			util->code = 126;
-			util->exit_code = 126;
-			free(path);
-			return(126);
-		}
-	}
-	if (path)
-	{
-		int fd = access(path, X_OK);
-		if (fd < 0 && errno == 13)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(path, 2);
-			ft_putendl_fd(": Permission denied", 2);
-			util->code = 126;
-			util->exit_code = 126;
-			free(path);
-			return (126);
-		}
-	}
-	char	*oldpwd;
- 	if (!ft_strcmp(node->args[0], "exit"))
+
+    // Check if path is valid
+    if (path && stat(path, &statbuf) == 0)
     {
-	if (handle_exit(util, node->args))
-		return (util->code);
+        if (S_ISDIR(statbuf.st_mode))
+        {
+            ft_putendl_fd(" Is a directory", 2);
+            util->code = 126;
+            util->exit_code = 126;
+            free(path);
+            return (126);
+        }
     }
-	if (!ft_strcmp(node->args[0], "env"))
+    
+    // Check permissions
+    if (path)
     {
-        exec_env(env, node->args);
-        return(util->code);
-    }
-	if (!ft_strcmp(node->args[0], "cd"))
-    {
-		oldpwd = getcwd(NULL, 0);
-		change_dir(util, node->args);
-		modify_oldpwd(&util->env, oldpwd);
-		return (util->code);
+        if (access(path, X_OK) != 0)
+        {
+            if (errno == EACCES)
+            {
+                ft_putstr_fd("minishell: ", 2);
+                ft_putstr_fd(path, 2);
+                ft_putendl_fd(": Permission denied", 2);
+                util->code = 126;
+                util->exit_code = 126;
+                free(path);
+                return (126);
+            }
+            else if (errno == ENOENT)
+            {
+                ft_putstr_fd("minishell: ", 2);
+                ft_putstr_fd(path, 2);
+                ft_putendl_fd(": No such file or directory", 2);
+                util->code = 127;
+                free(path);
+                return (127);
+            }
+        }
     }
 
-	if (!ft_strcmp(node->args[0], "pwd"))
+    // Handle built-in commands
+    if (!ft_strcmp(node->args[0], "echo"))
+    {
+        pid = fork();
+        if (pid == 0)
+        {
+            e_redirection(node, util);
+            exec_echo(node, &util);
+            exit(0);
+        }
+        else if (pid > 0)
+        {
+            waitpid(pid, &status, 0);
+            util->code = WIFEXITED(status) ? WEXITSTATUS(status) : EXIT_FAILURE;
+            util->exit_code = util->code;
+            free(path);
+            return (util->code);
+        }
+        else
+        {
+            perror("fork");
+            free(path);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (!ft_strcmp(node->args[0], "exit"))
+    {
+        if (handle_exit(util, node->args))
+        {
+            free(path);
+            return (util->code);
+        }
+    }
+   if (!ft_strcmp(node->args[0], "cd"))
+    {
+        char *oldpwd = getcwd(NULL, 0);
+        if (oldpwd)
+        {
+            change_dir(util, node->args);
+            modify_oldpwd(&util->env, oldpwd);
+            free(oldpwd);
+        }
+        free(path);
+        return (util->code);
+    }
+    if (!ft_strcmp(node->args[0], "pwd"))
     {
         exec_pwd(node->args, &util);
-        return(util->code);
+        free(path);
+        return (util->code);
     }
     if (!ft_strcmp(node->args[0], "unset"))
     {
         exec_unset(env, node->args);
-		util->code = 0;
-        return(0);
+        util->code = 0;
+        free(path);
+        return (0);
     }
     if (!ft_strcmp(node->args[0], "export"))
     {
         exec_export(env, util, node->args);
-		return (util->code);
-	}
-        pid = fork();
+        free(path);
+        return (util->code);
+    }
+
+    // Execute external command
+    pid = fork();
     if (pid == 0)
     {
-		e_redirection(node, util);
-		if (path)
-		{
-			array = copy_list_to_array((*env));
-			execve(path, node->args, array);
-		}
-		
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(node->args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		util->code = 127;
-		exit(127);
+	 if (!ft_strcmp(node->args[0], "env"))
+	 {
+        exec_env(env, node->args);
+        free(path);
+        exit (util->code);
+    }
+
+        e_redirection(node, util);
+        if (path)
+        {
+            array = copy_list_to_array(*env);
+            execve(path, node->args, array);
+            free_split(array);
+        }
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(node->args[0], 2);
+        ft_putendl_fd(": command not found", 2);
+        util->code = 127;
+        exit(127);
     }
     else if (pid > 0)
     {
         waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-        {
-            util->code = WEXITSTATUS(status);
-            util->exit_code = WEXITSTATUS(status);
-        }
-        else
-        {
-	    	util->code = EXIT_FAILURE;
-            util->exit_code = EXIT_FAILURE;
-        }
+        util->code = WIFEXITED(status) ? WEXITSTATUS(status) : EXIT_FAILURE;
+        util->exit_code = util->code;
     }
     else
     {
         perror("fork");
+        free(path);
         exit(EXIT_FAILURE);
     }
+
     free(path);
     return (util->code);
 }
