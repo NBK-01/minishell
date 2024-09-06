@@ -15,6 +15,22 @@
 #include "../../includes/ast.h"
 #include "../../includes/execute.h"
 
+void print_lex(t_lexer **lexer, int id)
+{
+	if (!(*lexer))
+		return;
+	while ((*lexer)->token_list)
+	{
+		if (id == 0)
+			printf("Main Level %d: %s\n", id, (*lexer)->token_list->value);
+		else
+			printf("Sub Level %d: %s\n", id, (*lexer)->token_list->value);
+		if ((*lexer)->token_list->sub_lexer)
+			print_lex(&(*lexer)->token_list->sub_lexer, id + 1);
+		(*lexer)->token_list = (*lexer)->token_list->next;
+	}
+}
+
 void	modify_exit_code(t_exec_utils *util, t_env *env)
 {
 	char	*code;

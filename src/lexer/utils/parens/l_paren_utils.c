@@ -12,6 +12,8 @@
 
 #include "../../../../includes/lexer.h"
 
+static void fill_paran(t_token *token_list, int id);
+
 int count_paran(char *input, char paran)
 {
     int counter;
@@ -39,6 +41,14 @@ int count_paran(char *input, char paran)
     return (counter);
 }
 
+void l_recursive_fill(t_lexer *lex, int id)
+{
+    if (!lex)
+        return;
+    if (lex->token_list)
+        fill_paran(lex->token_list, id);
+}
+
 static void fill_paran(t_token *token_list, int id)
 {
     (void)id;
@@ -49,45 +59,10 @@ static void fill_paran(t_token *token_list, int id)
             free(token_list->value);
             token_list->value = ft_strjoin("(", ")");
         }
+        if (token_list->sub_lexer)
+            l_recursive_fill(token_list->sub_lexer, 0);
         token_list = token_list->next;
     }
-}
-
-void l_recursive_fill(t_lexer *lex, int id)
-{
-    t_lex_ll *child;
-
-    if (!lex)
-        return;
-    if (lex->token_list)
-        fill_paran(lex->token_list, id);
-    if ((*lex->child))
-    {
-        child = (*lex->child);
-        while (child)
-        {
-            if (child->lexer)
-                l_recursive_fill(child->lexer, id + 1);
-            child = child->next;
-        }
-    }
-}
-
-void special_fill(int num, t_lexer *lexer)
-{
-    int find;
-
-    find = 0;
-    while (find < num)
-    {
-        if (lexer->token_list)
-        {
-            if (ft_strcmp(lexer->token_list->value, "(") == 0)
-                find++;
-        }
-        lexer = (*lexer->child)->lexer;
-    }
-    l_recursive_fill(lexer, 0);
 }
 
 int close_values(char *input, t_lexer **lexer, t_exec_utils **utils)
