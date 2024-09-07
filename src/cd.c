@@ -84,9 +84,15 @@ int	oldpwd_cd(t_exec_utils *util, char **args)
 	if (path)
 	{
 		if (!ft_strcmp(path, "-"))
+		{
+			free(path);
 			path = ft_strdup(oldpwd);
+		}
 		else
+		{
+			free(path);
 			return (0);
+		}
 		if (chdir(path) != 0)
 		{
 			util->code = 1;

@@ -14,7 +14,6 @@
 #include "../../../../includes/lexer.h"
 #include <dirent.h>
 
-
 char	**l_glob(const char *pattern, int *hits)
 {
 	struct dirent	*entry;

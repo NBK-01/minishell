@@ -23,6 +23,8 @@ void	modify_oldpwd(t_env **env, char *oldpwd)
 	{
 		if (!ft_strcmp(head->key, "OLDPWD"))
 		{
+			if (head->value)
+				free(head->value);
 			head->value = ft_strdup(oldpwd);
 			return ;
 		}

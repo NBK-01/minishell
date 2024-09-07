@@ -78,9 +78,7 @@ int	valid_export(char **args)
 
 int	exec_export_2(t_env **env, char **args)
 {
-	int		flag;
-	char	*key;
-	char	*value;
+	int	flag;
 	t_env	*head;
 	t_env	*new;
 
@@ -100,12 +98,14 @@ void	exec_export(t_env **env, t_exec_utils *util, char **args)
 {
 	t_env	*cpy;
 	t_env	*head;
+	t_env	*cpy_head;
 
-	cpy = ft_lstcpy(env);
-	bubble_sort(&cpy);
-	head = cpy;
 	if (!args[1])
 	{
+		cpy = ft_lstcpy(env);
+		bubble_sort(&cpy);
+		head = cpy;
+		cpy_head = head;
 		while (head)
 		{
 			if (head->hidden == 1)
@@ -114,6 +114,7 @@ void	exec_export(t_env **env, t_exec_utils *util, char **args)
 				printf("declare -x %s=\"%s\"\n", head->key, head->value);
 			head = head->next;
 		}
+		free_env_list(&cpy_head);
 		return ;
 	}
 	else

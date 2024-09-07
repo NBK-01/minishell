@@ -190,7 +190,7 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *pa
         {
             change_dir(util, node->args);
             modify_oldpwd(&util->env, oldpwd);
-            free(oldpwd);
+	    free(oldpwd);
         }
         free(path);
         return (util->code);

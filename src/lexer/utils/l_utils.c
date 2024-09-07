@@ -190,9 +190,13 @@ int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 		{
 			matches = l_glob(token->value, &hits);
 			if (hits > 0)
+			{
 				l_handler_wildcards(token, hits, matches);
+			}
 			else
+			{
 				token->value = l_remove_quotes(token);
+			}
 			expanded = expand_variables(token->value, lex->util, env);
 			if (expanded)
 			{

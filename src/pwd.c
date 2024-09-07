@@ -28,4 +28,5 @@ void	exec_pwd(char **args, t_exec_utils **util)
 	if (cwd == NULL)
 		perror("pwd");
 	printf("%s\n", cwd);
+	free(cwd);
 }

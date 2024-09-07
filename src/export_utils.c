@@ -62,7 +62,7 @@ int	export_multi_args(t_env **env, char **args)
 		{
 			if (ft_strcmp(head->key, args[i]))
 			{
-				new = env_lstnew(args[i], NULL, 1);
+				new = env_lstnew(args[i], "", 1);
 				env_lstadd_back(env, new);
 				break ;
 			}
@@ -112,7 +112,7 @@ int	add_new_env(char **args, t_env **env)
 		{
 			if (ft_strcmp(head->key, args[1]))
 			{
-				new = env_lstnew(args[1], NULL, 1);
+				new = env_lstnew(args[1], "", 1);
 				env_lstadd_back(env, new);
 				return (0);
 			}

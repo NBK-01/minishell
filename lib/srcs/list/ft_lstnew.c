@@ -42,6 +42,8 @@ t_env	*env_lstnew(char *key, char *value, int hidden)
 	t_env	*new;
 
 	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
 	new->hidden = hidden;
 	new->key = key;
 	new->value = value;
