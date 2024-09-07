@@ -190,13 +190,9 @@ int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 		{
 			matches = l_glob(token->value, &hits);
 			if (hits > 0)
-			{
 				l_handler_wildcards(token, hits, matches);
-			}
 			else
-			{
 				token->value = l_remove_quotes(token);
-			}
 			expanded = expand_variables(token->value, lex->util, env);
 			if (expanded)
 			{
@@ -248,7 +244,6 @@ void	l_tokenize_next(t_lexer *lex, t_token **token, int type, int len)
 	}
 }
 
-//cat    <| ls 
 int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
 {
 	t_token	*temp;
@@ -258,7 +253,10 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
 		|| !ft_strcmp(temp->value, "&&") || !ft_strcmp(temp->value, ">>")
 		|| !ft_strcmp(temp->value, ">") || !ft_strcmp(temp->value, ";"))
 	{
-		ft_putendl_fd("Syntax Error", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+		ft_putstr_fd(" `", 2);
+		ft_putstr_fd(temp->value, 2);
+		ft_putendl_fd("\'", 2);
 		(*utils)->code = 2;
 		return (0);
 	}
@@ -266,7 +264,10 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
 	{
 		if (!temp->next || temp->next->type != TYPE_WORD)
 		{
-			ft_putendl_fd("Syntax Er333ror", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+			ft_putstr_fd(" `", 2);
+			ft_putstr_fd(temp->value, 2);
+			ft_putendl_fd("\'", 2);
 			(*utils)->code = 2;
 			return (0);
 		}
@@ -277,7 +278,11 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
 		{
 			if (!temp->sub_lexer || !temp->sub_lexer->token_list->value[0])
 			{
-				ft_putendl_fd("Syntax Er222ror", 2);
+
+				ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+				ft_putstr_fd(" `", 2);
+				ft_putstr_fd(temp->value, 2);
+				ft_putendl_fd("\'", 2);
 				(*utils)->code = 2;
 				return (0);	
 			}
@@ -290,7 +295,11 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
 			{
 				if (temp->type != TYPE_WORD)
 				{
-					ft_putendl_fd("Syntax E22rror", 2);
+
+					ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+					ft_putstr_fd(" `", 2);
+					ft_putstr_fd(temp->value, 2);
+					ft_putendl_fd("\'", 2);
 					(*utils)->code = 2;
 					return (0);
 				}
@@ -302,7 +311,10 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
 			{
 				if (!temp->next->next)
 				{
-					ft_putendl_fd("Syntax Error: here", 2);
+					ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+					ft_putstr_fd(" `", 2);
+					ft_putstr_fd(temp->value, 2);
+					ft_putendl_fd("\'", 2);
 					(*utils)->code = 2;
 					return (0);
 				}
@@ -311,9 +323,12 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
                     if (temp->type != TYPE_WORD && (temp->next->next->type != TYPE_LSHIFT || temp->next->next->type != TYPE_RSHIFT
                         || temp->next->next->type != TYPE_WORD || temp->next->next->type != TYPE_HEREDOC || temp->next->next->type != TYPE_APPEND))
                         {
-                            ft_putendl_fd("Syntax Error", 2);
-					        (*utils)->code = 2;
-					        return (0);
+						ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+						ft_putstr_fd(" `", 2);
+						ft_putstr_fd(temp->value, 2);
+						ft_putendl_fd("\'", 2);
+						(*utils)->code = 2;
+						return (0);
                         }
                 }
 				else if (!ft_strcmp(temp->next->value, ">>")
@@ -322,7 +337,10 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
                 {
                     if ((temp->type != TYPE_WORD || temp->type != TYPE_PIPE) && temp->next->next->type != TYPE_WORD)
 				    {
-					    ft_putendl_fd("Syntax Error: here", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+						ft_putstr_fd(" `", 2);
+						ft_putstr_fd(temp->value, 2);
+						ft_putendl_fd("\'", 2);
 					    (*utils)->code = 2;
 					    return (0);
 				    } 
@@ -332,7 +350,10 @@ int	validate_lexer(t_lexer **lex, t_exec_utils **utils)
                 {
                     if (temp->type != TYPE_WORD && temp->next->next->type != TYPE_WORD)
 				    {
-					    ft_putendl_fd("Syntax Error: here2", 2);
+						ft_putstr_fd("minishell: syntax error near unexpected token", 2);
+						ft_putstr_fd(" `", 2);
+						ft_putstr_fd(temp->value, 2);
+						ft_putendl_fd("\'", 2);
 					    (*utils)->code = 2;
 					    return (0);
 				    } 

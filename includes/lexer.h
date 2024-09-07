@@ -17,7 +17,7 @@
 # include "./execute.h"
 
 int		validate_lexer(t_lexer **lex, t_exec_utils **utils);
-char	*l_expand(char *value, t_lex_utils *util, t_env *env);
+char		*l_expand(char *value, t_lex_utils *util, t_env *env);
 /*/////////////////////////////////////////////////////////////
 ////////////		TYPES			    //////////
 ////////////////////////////////////////////////////////////*/
@@ -26,11 +26,11 @@ int		l_tokenize(t_lexer *lex, t_token **token, int type, int *state);
 /*/////////////////////////////////////////////////////////////
 ////////////		QUOTES			    //////////
 ////////////////////////////////////////////////////////////*/
-void	l_state_handler_quote_in(t_lexer *lex, t_token **token,
+void		l_state_handler_quote_in(t_lexer *lex, t_token **token,
 			int type, int *state);
-void	l_state_handler_quote_exit(t_lexer *lex, t_token **token,
+void		l_state_handler_quote_exit(t_lexer *lex, t_token **token,
 			int type, int *state);
-char	*l_remove_quotes(t_token *token);
+char		*l_remove_quotes(t_token *token);
 
 /*/////////////////////////////////////////////////////////////
 ////////////		OPERATORS		    //////////

@@ -16,11 +16,7 @@
 void	free_env_node(t_env *node)
 {
 	if (node)
-	{
-		free(node->key);
-		free(node->value);
 		free(node);
-	}
 }
 
 void	delete_env_node(t_env **env_list, const char *key)

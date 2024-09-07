@@ -2,10 +2,21 @@
 #include "../../includes/token.h"
 #include "../../includes/ast.h"
 
+
+static void	free_tree(t_syntax_tree *tree)
+{
+	if (tree->branch)
+		free_ast(tree->branch);
+}
+
+
+
 void	free_ast(t_ast_node *node)
 {
 	if (node)
 	{
+		if (node->tree_link)
+			free_tree(node->tree_link);
 		if (node->left)
 			free_ast(node->left);
 		if (node->right)
@@ -20,17 +31,16 @@ void	free_ast(t_ast_node *node)
 	}
 }
 
+
 void free_token(t_token *token) {
     t_token *current = token;
     t_token *next_token;
 
     while (current != NULL) {
         next_token = current->next;
-        // Free the value string if it's not NULL
         if (current->value) {
             free(current->value);
         }
-        // Free the current token node
         free(current);
         current = next_token;
     }

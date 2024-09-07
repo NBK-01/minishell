@@ -25,12 +25,12 @@ typedef struct s_ast_node
 	struct s_ast_node	*left;  // Normal binary tree
 	struct s_ast_node	*right; // Normal binary tree node
 	struct s_syntax_tree	*tree_link;
-	struct s_lexer			**lexer;
+	struct s_lexer		**lexer;
 	e_node_type		type;
-	struct s_token			*sub;
+	struct s_token		*sub;
 	int			append;
 	int			here_doc;
-	int	exit;
+	int			exit;
 }	t_ast_node;
 
 

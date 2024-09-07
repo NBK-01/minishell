@@ -13,10 +13,12 @@
 #include "../includes/minishell.h"
 #include "../includes/ast.h"
 
+
 int	main(int ac, char **av, char **env)
 {
 	t_env	*env_ll;
 
+	signal_handler();
 	env_ll = NULL;
 	copy_env(&env_ll, env);
 	modify_shell_lvl(env_ll);

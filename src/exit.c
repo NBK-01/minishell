@@ -14,7 +14,7 @@
 #include "../includes/builtins.h"
 #include "../includes/execute.h"
 
-void	exit_operations(char **args, t_exec_utils *util)
+void	exit_operations(char **args, t_exec_utils *util, t_ast_node *node)
 {
 	int		nbr;
 	char	*delim;
@@ -39,7 +39,7 @@ void	exit_operations(char **args, t_exec_utils *util)
 	}
 }
 
-void	exit_args(char **args)
+void	exit_args(char **args, t_ast_node *node)
 {
 	int	nbr;
 	int	i;
@@ -65,24 +65,31 @@ void	exit_args(char **args)
 	exit(nbr);
 }
 
-int	handle_exit(t_exec_utils *util, char **args)
+int	handle_exit(t_exec_utils *util, t_ast_node *node, t_env *env)
 {
-	if (!args[1])
+	char	**args;
+
+	args = NULL;
+	if (node && node->args)
+		args = node->args;
+	if (args && !args[1])
 	{
 		ft_putendl_fd("exit", 0);
+		free_ast(node);
 		exit(util->code);
 	}
-	if (args[2])
+	if (args && args[2])
 	{
 		ft_putendl_fd("exit", 0);
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putendl_fd("too many arguments", 2);
+		free_ast(node);
 		exit(1);
 	}
-	else if (args[1])
+	else if (args && args[1])
 	{
-		exit_operations(args, util);
-		exit_args(args);
+		exit_operations(args, util, node);
+		exit_args(args, node);
 	}
 	return (1);
 }

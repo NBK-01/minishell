@@ -108,8 +108,6 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *pa
     pid_t pid;
     int status;
 
-    // Determine the path to execute
-       // Check if path is valid
     if (path && stat(path, &statbuf) == 0)
     {
         if (S_ISDIR(statbuf.st_mode))
@@ -122,7 +120,6 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *pa
         }
     }
     
-    // Check permissions
     if (path)
     {
         if (access(path, X_OK) != 0)
@@ -149,7 +146,6 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *pa
         }
     }
 
-    // Handle built-in commands
     if (!ft_strcmp(node->args[0], "echo"))
     {
         pid = fork();
@@ -177,7 +173,7 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *pa
 
     if (!ft_strcmp(node->args[0], "exit"))
     {
-        if (handle_exit(util, node->args))
+        if (handle_exit(util, node, (*env)))
         {
             free(path);
             return (util->code);

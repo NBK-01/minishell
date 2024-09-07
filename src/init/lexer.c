@@ -49,7 +49,8 @@ int	init_lexer(char *input, t_lexer **lex, t_token **token, t_env *env)
 	int		type;
 	size_t	len;
 
-	len = ft_strlen(input);
+	if (input)
+		len = ft_strlen(input);
 	state = STATE_ANY;
 	(*token) = l_vars_init(input, (*lex), (*token), env);
 	init_token((*token), len, 0);

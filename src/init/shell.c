@@ -31,34 +31,78 @@ void print_lex(t_lexer **lexer, int id)
 	}
 }
 
-void	modify_exit_code(t_env **env, char *code)
+void	modify_exit_code(t_env **env, int code)
 {
-	int	flag;
 	t_env	*temp;
 	t_env	*new;
+	char	*code_str;
 
 	temp = (*env);
-	flag = 0;
 	while (temp)
 	{
 		if (!ft_strcmp(temp->key, "?"))
 		{
-			temp->value = ft_strdup(code);
+			code_str = ft_itoa(code);
+			temp->value = code_str;
 			return ;
 		}
 		temp = temp->next;
 	}
-	new = env_lstnew("?", code, 2);
+	new = env_lstnew("?", code_str, 2);
 	env_lstadd_back(env, new);
 }
 
-void	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
+void free_token_list(t_token *token_list) {
+    t_token *current;
+    t_token *next;
+
+    current = token_list;
+    while (current != NULL) {
+        next = current->next;
+
+        // Free the value of the token if it's not NULL
+        if (current->value) {
+            free(current->value);
+        }
+
+        // Recursively free the sub_lexer if it exists
+        if (current->sub_lexer) {
+            free_token_list(current->sub_lexer->token_list);
+            free(current->sub_lexer);  // Free the sub_lexer itself
+        }
+
+        // Free the current token
+        free(current);
+
+        // Move to the next token
+        current = next;
+    }
+}
+
+void	free_lexer(t_lexer *lexer) {
+    if (lexer == NULL) {
+        return;
+    }
+
+    // Free the token list
+    free_token_list(lexer->token_list);
+
+    // Free the lexer itself
+    free(lexer);
+}
+
+int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 {
 	char		*input;
 	t_token		*token;
 	t_syntax_tree	*tree;
 
 	input = lex->util->input;
+	if (input == NULL)
+	{
+		exit(util->code);
+		return (1);
+	}
 	token = malloc(sizeof(t_token));
 	init_lexer(input, &lex, &token, (*env));
 	if (close_values(input, &lex, &util))
@@ -69,9 +113,12 @@ void	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 			init_parser(&lex, &tree);
 			init_execute(tree, env, &util);
 			free_ast(tree->branch);
+			free(tree);
 		}	
 	}
-	free_token_ll(lex->token_list);
+	if (token)
+		free_token(token);
+	return (0);
 }
 
 void	prompt_loop(t_env *env)
@@ -91,15 +138,14 @@ void	prompt_loop(t_env *env)
 		input = readline("\033[1;3142@minishell=> \033[0;0m");
 		add_history(input);
 		lex->util->input = input;
-		init_shell(lex, util, &env);
-		code = ft_itoa(util->code);
-		modify_exit_code(&env, code);
-		free(code);
-		if (!input)
+		if (init_shell(lex, util, &env))
 			break ;
+		modify_exit_code(&env, util->code);
 		free(input);
 		lex->util->rec_count = 0;
 	}
 	free(lex->util);
+	free_lexer(lex);
 	free(util);
+	rl_clear_history();
 }

@@ -26,7 +26,7 @@
 
 void	exec_pwd(char **args, t_exec_utils **util);
 void	change_dir(t_exec_utils *util, char **args);
-int		handle_exit(t_exec_utils *util, char **args);
+int	handle_exit(t_exec_utils *util, t_ast_node *node, t_env *env);
 void	exec_env(t_env **env, char **args);
 void	exec_unset(t_env **env, char **args);
 void	internal_unset(t_env **env, char *key);
