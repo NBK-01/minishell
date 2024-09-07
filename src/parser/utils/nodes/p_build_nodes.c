@@ -13,16 +13,20 @@
 #include "../../../../includes/ast.h"
 #include "../../../../includes/token.h"
 
-void	build_simple_command_vars(t_ast_node **node, t_ast_utils *util)
+void	build_simple_command_vars(t_ast_node **node, t_ast_utils **util)
 {
+	t_ast_utils	*temp;
+
+	temp = (*util);
 	(*node)->type = AST_COMMAND;
-	(*node)->in = util->files[1];
-	(*node)->out = util->files[0];
-	(*node)->append = util->append;
-	(*node)->exit = util->exit;
-	(*node)->here_doc = util->here_doc;
+	(*node)->in = temp->files[1];
+	(*node)->out = temp->files[0];
+	(*node)->append = temp->append;
+	(*node)->exit = temp->exit;
+	(*node)->here_doc = temp->here_doc;
 	(*node)->right = NULL;
 	(*node)->left = NULL;
+	free(temp->files);
 }
 
 t_ast_node	*p_build_simple_command(t_ast_utils *util)
@@ -41,7 +45,7 @@ t_ast_node	*p_build_simple_command(t_ast_utils *util)
 		}
 		else
 			node->args = ft_split(util->args, ' ');
-		build_simple_command_vars(&node, util);
+		build_simple_command_vars(&node, &util);
 		if (util->sub)
 			node->lexer = util->sub;
 	}

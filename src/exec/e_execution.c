@@ -17,12 +17,21 @@
 
 int	e_traverse_tree(t_ast_node *node, t_exec_utils *util, t_env **env)
 {
+	char	*path;
+	char	*hello;
+
 	if (!node)
 		return (1);
 	if (node->type == AST_COMMAND)
 	{
 		if (node && node->args && node->args[0])
-			return (e_simple_command(node, util, env));
+		{
+			if (!ft_strncmp(node->args[0], "/", 1) || !ft_strncmp(node->args[0], "./", 2))
+				path = ft_strdup(node->args[0]);
+			else
+				path = get_path(node->args, env);
+			return (e_simple_command(node, util, env, path));
+		}
 	}
 	else if (node->type == AST_PIPE)
 		e_pipeline(node, util, env);
@@ -91,68 +100,16 @@ void	e_pipeline(t_ast_node *node, t_exec_utils *util, t_env **env)
 }
 
 
-int count_nodes(t_env *head) {
-    int count = 0;
-    while (head) {
-        count++;
-        head = head->next;
-    }
-    return count;
-}
 
-// Function to copy linked list to array of strings
-char **copy_list_to_array(t_env *head) {
-    int length = count_nodes(head);
-    char **array = malloc((length + 1) * sizeof(char *)); // +1 for NULL terminator
-    if (!array) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-
-    int i = 0;
-    while (head) {
-        // Calculate the length needed for the new string
-        size_t key_len = strlen(head->key);
-        size_t value_len = strlen(head->value);
-        size_t str_len = key_len + value_len + 2; // +2 for '=' and '\0'
-
-        // Allocate memory for the formatted string
-        array[i] = malloc(str_len * sizeof(char));
-        if (!array[i]) {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
-
-        // Format and copy the string into the array
-        snprintf(array[i], str_len, "%s=%s", head->key, head->value);
-
-        // Move to the next element
-        head = head->next;
-        i++;
-    }
-
-    // NULL-terminate the array
-    array[i] = NULL;
-
-    return array;
-}
-
-
-int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env)
+int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *path)
 {
     struct stat statbuf;
-    char **array = NULL;
-    char *path = NULL;
+    char **array;
     pid_t pid;
     int status;
 
     // Determine the path to execute
-    if (!ft_strncmp(node->args[0], "/", 1) || !ft_strncmp(node->args[0], "./", 2))
-        path = ft_strdup(node->args[0]);
-    else
-        path = get_path(node->args, env);
-
-    // Check if path is valid
+       // Check if path is valid
     if (path && stat(path, &statbuf) == 0)
     {
         if (S_ISDIR(statbuf.st_mode))
@@ -272,9 +229,9 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env)
         e_redirection(node, util);
         if (path)
         {
-            array = copy_list_to_array(*env);
+	    array = allocate_array(get_list_length(*env));
+            copy_list_to_array(*env, array);
             execve(path, node->args, array);
-            free_split(array);
         }
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(node->args[0], 2);

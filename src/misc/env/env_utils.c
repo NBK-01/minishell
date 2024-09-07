@@ -67,10 +67,10 @@ char	*get_key_exp(char *str)
 	if (delim != NULL)
 	{
 		*delim = '\0';
-		key = strdup(temp);
+		key = ft_strdup(temp);
 	}
 	else
-		key = strdup(temp);
+		key = ft_strdup(temp);
 	free(temp);
 	return (key);
 }
@@ -84,7 +84,7 @@ char	*get_value_exp(char *str)
 	temp = ft_strdup(str);
 	delim = ft_strchr(temp, '=');
 	if (delim != NULL)
-		value = strdup(delim + 1);
+		value = ft_strdup(delim + 1);
 	else
 		value = NULL;
 	free(temp);

@@ -28,8 +28,7 @@ void	free_split(char **split);
 void	free_ast(t_ast_node *node);
 void	free_lexer(t_lexer *lex);
 void	prompt_loop(t_env *env);
-void	init_shell(t_lexer *lex, t_exec_utils *util,
-			t_syntax_tree *tree, t_env **env);
+void	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env);
 void	l_recursive_print(t_lexer *lex, int id);
 void	modify_oldpwd(t_env **env, char *oldpwd);
 void	print_env(t_env **head);

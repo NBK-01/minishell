@@ -23,7 +23,7 @@ char	*get_cd_path(t_env **env, char *path)
 	{
 		if (!ft_strcmp(temp->key, path))
 		{
-			home = ft_strdup(temp->value);
+			home = temp->value;
 			break ;
 		}
 		temp = temp->next;
@@ -98,6 +98,7 @@ int	oldpwd_cd(t_exec_utils *util, char **args)
 		free(path);
 		return (1);
 	}
+	free(oldpwd);
 	free(path);
 	return (0);
 }
@@ -112,15 +113,9 @@ void	change_dir(t_exec_utils *util, char **args)
 		return ;
 	}
 	if (home_cd(util, args) == 1)
-	{
 		return ;
-	}
 	if (oldpwd_cd(util, args) == 1)
-	{
 		return ;
-	}
 	if (path_cd(util, args))
-	{
 		return ;
-	}
 }

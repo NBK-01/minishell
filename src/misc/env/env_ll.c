@@ -35,17 +35,14 @@ char	*get_key(char *str)
 
 char	*get_value(char *str)
 {
-	char	*temp;
 	char	*delim;
 	char	*value;
 
-	temp = ft_strdup(str);
-	delim = ft_strchr(temp, '=');
+	delim = ft_strchr(str, '=');
 	if (delim != NULL)
-		value = strdup(delim + 1);
+		value = ft_strdup(delim + 1);
 	else
 		value = NULL;
-	free(temp);
 	return (value);
 }
 
@@ -56,6 +53,7 @@ void	add_special_env(t_env **env_ll)
 	int	fd;
 	char	*line;
 	char	**split;
+	char	*pid;
 
 	split = NULL;
 	new = env_lstnew("?", "0", 2);
@@ -66,7 +64,10 @@ void	add_special_env(t_env **env_ll)
 	if (line)
 		split = ft_split(line, ' ');
 	if (split)
-		new = env_lstnew("$", split[3], 2);
+	{
+		pid = ft_strdup(split[3]);
+		new = env_lstnew("$", pid, 2);
+	}
 	else
 		new = env_lstnew("$", "123", 2);
 	env_lstadd_back(env_ll, new);

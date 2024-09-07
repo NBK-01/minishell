@@ -31,39 +31,32 @@ void print_lex(t_lexer **lexer, int id)
 	}
 }
 
-void	modify_exit_code(t_exec_utils *util, t_env *env)
+void	modify_exit_code(t_env **env, char *code)
 {
-	char	*code;
-	int		flag;
+	int	flag;
 	t_env	*temp;
 	t_env	*new;
 
-	code = ft_itoa(util->code);
-	temp = env;
+	temp = (*env);
 	flag = 0;
 	while (temp)
 	{
 		if (!ft_strcmp(temp->key, "?"))
 		{
 			temp->value = ft_strdup(code);
-			flag = 1;
+			return ;
 		}
 		temp = temp->next;
 	}
-	if (!flag)
-	{
-		new = env_lstnew("?", code, 2);
-		env_lstadd_back(&env, new);
-		free(code);
-	}
-	free(code);
+	new = env_lstnew("?", code, 2);
+	env_lstadd_back(env, new);
 }
 
-void	init_shell(t_lexer *lex, t_exec_utils *util,
-				t_syntax_tree *tree, t_env **env)
+void	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 {
-	char	*input;
-	t_token	*token;
+	char		*input;
+	t_token		*token;
+	t_syntax_tree	*tree;
 
 	input = lex->util->input;
 	token = malloc(sizeof(t_token));
@@ -72,22 +65,24 @@ void	init_shell(t_lexer *lex, t_exec_utils *util,
 	{
 		if (validate_lexer(&lex, &util) == 1)
 		{
+			tree = ft_calloc(1, sizeof(t_syntax_tree));
 			init_parser(&lex, &tree);
 			init_execute(tree, env, &util);
+			free_ast(tree->branch);
 		}	
 	}
+	free_token_ll(lex->token_list);
 }
 
 void	prompt_loop(t_env *env)
 {
 	char			*input;
 	t_lexer			*lex;
-	t_syntax_tree	*tree;
-	t_exec_utils	*util;
+	t_exec_utils		*util;
+	char			*code;
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;
-	tree = ft_calloc(1, sizeof(t_syntax_tree));
 	lex = malloc(sizeof(t_lexer));
 	lex->util = malloc(sizeof(t_lex_utils));
 	lex->util->rec_count = 0;
@@ -96,15 +91,14 @@ void	prompt_loop(t_env *env)
 		input = readline("\033[1;3142@minishell=> \033[0;0m");
 		add_history(input);
 		lex->util->input = input;
-		init_shell(lex, util, tree, &env);
-		modify_exit_code(util, env);
+		init_shell(lex, util, &env);
+		code = ft_itoa(util->code);
+		modify_exit_code(&env, code);
+		free(code);
 		if (!input)
 			break ;
 		free(input);
 		lex->util->rec_count = 0;
-		if (tree && tree->branch)
-			free_ast(tree->branch);
-		free_token_ll(lex->token_list);
 	}
 	free(lex->util);
 	free(util);

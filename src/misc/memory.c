@@ -12,6 +12,10 @@ void	free_ast(t_ast_node *node)
 			free_ast(node->right);
 		if (node->args)
 			free_split(node->args);
+		if (node->in)
+			free(node->in);
+		if (node->out)
+			free(node->out);
 		free(node);
 	}
 }
