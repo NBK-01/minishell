@@ -8,6 +8,7 @@ struct s_lexer;
 struct s_token;
 struct s_lex_util;
 
+
 typedef enum node_type
 {
 	AST_PIPE,

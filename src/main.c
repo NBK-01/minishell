@@ -6,13 +6,15 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:02:37 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/04 19:39:10 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/08 09:18:26 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/ast.h"
+#include "../includes/signals.h"
 
+int	g_mini_code;
 
 int	main(int ac, char **av, char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:52:20 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/04 19:15:14 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/08 12:14:05 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_ast_node	*p_build_pipeline(t_token **token)
 {
 	t_ast_utils	*util;
 	t_ast_node	*node;
-	int		flag;
-	int		flag2;
+	int			flag;
+	int			flag2;
 
 	flag = 0;
 	flag2 = 0;
@@ -42,7 +42,8 @@ t_ast_node	*p_build_pipeline(t_token **token)
 				flag = 1;
 		if (flag2 == 0)
 			(*token) = (*token)->next;
-		if ((*token) && ((*token)->type == TYPE_AND || (*token)->type == TYPE_OR))
+		if ((*token) && ((*token)->type == TYPE_AND
+				|| (*token)->type == TYPE_OR))
 		{
 			if (!flag)
 				util->node = p_build_simple_command(util);

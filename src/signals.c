@@ -1,8 +1,6 @@
 #include "../includes/minishell.h"
 #include <signal.h>
-
-
-int	g_mini_code;
+#include "../includes/signals.h"
 
 void	handle_signint(int signum)
 {
@@ -33,6 +31,6 @@ void	signal_handler(void)
 
 void	sigint_heredoc(int signal_number)
 {
-	write(1, "\n", 1);
+	g_mini_code = 52;
 	exit(130);
 }

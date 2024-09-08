@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../../includes/execute.h"
+#include "../../../includes/signals.h"
 
 char	*my_getenv(char *name, t_env *env_ll)
 {
@@ -60,7 +61,7 @@ char *get_path(char **s_cmd, t_env **env_ll)
 
 void	handle_doc(char *lim, int pipefd[2])
 {
-	char	*line;
+	char		*line;
 	int		flag;
 
 	flag = 1;
@@ -68,10 +69,13 @@ void	handle_doc(char *lim, int pipefd[2])
 	{
 		line = get_next_line(STDIN_FILENO);
 		signal(SIGINT, sigint_heredoc);
-		free(line);
-		flag -= flag;
-		close(pipefd[1]);
-		return ;
+		if (g_mini_code == 52)
+		{
+			free(line);
+			flag -= flag;
+			close(pipefd[1]);
+			return ;
+		}
 		if (ft_strncmp(line, lim, ft_strlen(lim)) == 0)
 		{
 			free(line);

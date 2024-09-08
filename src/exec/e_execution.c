@@ -12,6 +12,7 @@
 
 #include "../../includes/execute.h"
 #include "../../includes/builtins.h"
+#include "../../includes/signals.h"
 #include <sys/stat.h>
 #include <errno.h>
 
@@ -210,8 +211,6 @@ int e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env, char *pa
         free(path);
         return (util->code);
     }
-
-    // Execute external command
     pid = fork();
     if (pid == 0)
     {
@@ -265,6 +264,7 @@ void	e_redirection(t_ast_node *node, t_exec_utils *util)
 			exit(node->exit);
 		if (node->here_doc)
 		{
+			g_mini_code = 10;
 			pipe(pipefd);
 			handle_doc(node->in, pipefd);
 			dup2(pipefd[0], STDIN_FILENO);
