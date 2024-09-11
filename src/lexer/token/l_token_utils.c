@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 11:57:01 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/04 19:17:40 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:03:53 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	free_token_ll(t_token *token)
 {
 	if (token)
 	{
+		if (token->sub_lexer)
+			free_lexer(&token->sub_lexer);
 		free(token->value);
 		free_token_ll(token->next);
-		free(token);
+		if (token)
+			free(token);
 	}
 }
 

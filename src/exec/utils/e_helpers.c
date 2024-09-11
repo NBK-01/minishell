@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:17 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 09:19:24 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 15:54:48 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ int	builtins_one(t_ast_node *node, t_exec_utils *util, t_env **env,
 	if (!ft_strcmp(node->args[0], "cd"))
 	{
 		oldpwd = getcwd(NULL, 0);
+		change_dir(util, node->args);
 		if (oldpwd)
 		{
-			change_dir(util, node->args);
 			modify_oldpwd(&util->env, oldpwd);
-			free(oldpwd);
 		}
+		modify_pwd(&util->env);
 		free(path);
 		return (1);
 	}

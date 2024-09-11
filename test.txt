@@ -1,0 +1,5 @@
+NAME = minishell
+all: header $(NAME)
+$(NAME):	$(BUILTIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(EXEC_OBJS) $(OBJS) $(LIBFT) $(HEADER)
+	@$(CC) $(CFLAGS)  $(BUILTIN_OBJS) $(PARSER_OBJS) $(LEXER_OBJS) $(EXEC_OBJS) $(OBJS) -o $(NAME) $(LIBFT) -lreadline
+				rm $(NAME)

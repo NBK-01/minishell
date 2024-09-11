@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:52:00 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/04 19:46:29 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 09:47:49 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,16 @@ void	copy_env(t_env **env_ll, char **env)
 	{
 		key = get_key(env[i]);
 		value = get_value(env[i]);
-		new = env_lstnew(key, value, 0);
-		env_lstadd_back(env_ll, new);
+		if (!ft_strcmp(key, "OLDPWD") || !ft_strcmp(key, "PWD"))
+		{
+			new = env_lstnew(key, value, 2);
+			env_lstadd_back(env_ll, new);
+		}
+		else
+		{
+			new = env_lstnew(key, value, 0);
+			env_lstadd_back(env_ll, new);
+		}
 		i++;
 	}
 	add_special_env(env_ll);

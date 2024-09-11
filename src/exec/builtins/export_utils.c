@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:31:14 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 11:41:38 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 10:16:12 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	export_multi_args(t_env **env, char **args)
 		{
 			if (ft_strcmp(head->key, args[i]))
 			{
-				new = env_lstnew(args[i], "", 1);
+				new = env_lstnew(ft_strdup(args[i]), "", 1);
 				env_lstadd_back(env, new);
 				break ;
 			}
@@ -80,18 +80,9 @@ void	change_env_values(t_env **env, char *value, char *key, int *flag)
 	{
 		if (!ft_strcmp(head->key, key))
 		{
-			if (head->hidden == 1)
-			{
-				internal_unset(env, key);
-				*flag = 1;
-				break ;
-			}
-			else
-			{
-				head->value = ft_strdup(value);
-				*flag = 0;
-				break ;
-			}
+			head->value = ft_strdup(value);
+			*flag = 0;
+			break ;
 		}
 		else
 			*flag = 1;
@@ -103,7 +94,6 @@ int	add_new_env(char **args, t_env **env)
 {
 	t_env	*head;
 	t_env	*new;
-	char	*str;
 
 	head = (*env);
 	if (args[2] == NULL)
@@ -112,8 +102,7 @@ int	add_new_env(char **args, t_env **env)
 		{
 			if (ft_strcmp(head->key, args[1]))
 			{
-				str = ft_strdup(args[1]);
-				new = env_lstnew(str, "", 1);
+				new = env_lstnew(args[1], "", 1);
 				env_lstadd_back(env, new);
 				return (0);
 			}

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 13:33:24 by mhabbal           #+#    #+#             */
-/*   Updated: 2024/09/09 15:08:02 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:21:51 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,46 +39,23 @@ void	free_ast(t_ast_node *node)
 			free(node->in);
 		if (node->out)
 			free(node->out);
+		if (node->lexer)
+			if ((*node->lexer)->token_list)
+				free_token_ll((*node->lexer)->token_list);
 		free(node);
 	}
 }
 
-void free_token_list(t_token *token_list) {
-    t_token *temp;
-
-    while (token_list) {
-        temp = token_list;
-        if (token_list->sub_lexer) {
-            // Free sub-lexer's token list and itself
-            free_token_list(token_list->sub_lexer->token_list);
-            free(token_list->sub_lexer->util); // Free the utility structure
-            free(token_list->sub_lexer);       // Free the sub-lexer itself
-        }
-        token_list = token_list->next;
-        free(temp->value); // Assuming value is dynamically allocated
-        free(temp);        // Free the current token
-    }
-}
-
-void free_lexer(t_lexer *lexer) {
-    if (!lexer) return;
-    
-    // Free the token list
-    free_token_list(lexer->token_list);
-    
-    // Free the c_token if needed
-    if (lexer->c_token) {
-        free(lexer->c_token->value); // Assuming value is dynamically allocated
-        free(lexer->c_token);
-    }
-    
-    // Free the utility structure
-    if (lexer->util) {
-        free(lexer->util);
-    }
-    
-    // Free the lexer itself
-    free(lexer);
+void	free_lexer(t_lexer **lex)
+{
+	if (!lex && (*lex))
+		return ;
+	if ((*lex) && (*lex)->token_list)
+		free_token_ll((*lex)->token_list);
+	if ((*lex)->c_token)
+		free_token_ll((*lex)->c_token);
+	free((*lex)->util);
+	free((*lex));
 }
 
 void	free_env_list(t_env **env)

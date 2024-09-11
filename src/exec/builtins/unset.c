@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:21:00 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/04 19:16:25 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 15:58:15 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ void	delete_env_node(t_env **env_list, const char *key)
 		return ;
 	current = *env_list;
 	prev = NULL;
-	if (current != NULL && strcmp(current->key, key) == 0)
+	if (current != NULL && ft_strcmp(current->key, key) == 0)
 	{
 		*env_list = current->next;
+		prev  = current;
 		free_env_node(current);
 		return ;
 	}
-	while (current != NULL && strcmp(current->key, key) != 0)
+	while (current != NULL && ft_strcmp(current->key, key) != 0)
 	{
 		prev = current;
 		current = current->next;

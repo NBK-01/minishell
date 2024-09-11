@@ -6,11 +6,12 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 08:48:31 by mhabbal           #+#    #+#             */
-/*   Updated: 2024/09/08 18:05:01 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:20:20 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/get_next_line.h"
+#include "../../../includes/signals.h"
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -99,4 +100,17 @@ char	*get_next_line(int fd)
 		return (NULL);
 	left = get_after_new_line(line);
 	return (line);
+}
+
+void	signal_exec(t_ast_node *node)
+{
+	if (!node->here_doc)
+	{
+		signal(SIGINT, fork_handler);
+		signal(SIGQUIT, fork_handler);
+	}
+	if (node->here_doc)
+	{
+		signal(SIGINT, sigint_heredoc);
+	}
 }

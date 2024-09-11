@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 02:44:47 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/09 09:17:43 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 14:45:29 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	handle_signint(int signum)
 {
 	(void)signum;
-	g_mini_code = 130;
+	g_mini.mini_code = 130;
 	rl_replace_line("", 0);
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
@@ -27,11 +27,11 @@ void	handle_signint(int signum)
 void	fork_handler(int signum)
 {
 	if (signum == 2)
-		g_mini_code = 130;
+		g_mini.mini_code = 130;
 	else
 	{
-		ft_putstr_fd("exit", 1);
-		g_mini_code = 131;
+		ft_putstr_fd("(Quit) core dumped", 1);
+		g_mini.mini_code = 131;
 	}
 	write(1, "\n", 1);
 }
@@ -42,9 +42,9 @@ void	signal_handler(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	sigint_heredoc(int signal_number)
+void	sigint_heredoc(int signum)
 {
-	(void)signal_number;
-	g_mini_code = 52;
-	exit(130);
+	(void)signum;
+	g_mini.mini_code = 130;
+	ft_putstr_fd(" \n", 1);
 }

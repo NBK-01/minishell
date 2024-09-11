@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:51:52 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/09 12:10:26 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:54:25 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@ void	modify_oldpwd(t_env **env, char *oldpwd)
 	{
 		if (!ft_strcmp(head->key, "OLDPWD"))
 		{
-			head->value = oldpwd;
+			if (head->value)
+				free(head->value);
+			head->value = ft_strdup(oldpwd);
+			free(oldpwd);
 			return ;
 		}
 		head = head->next;
 	}
-	new = env_lstnew("OLDPWD", oldpwd, 0);
+	new = env_lstnew("OLDPWD", oldpwd, 2);
+	free(oldpwd);
 	env_lstadd_back(env, new);
 }
 

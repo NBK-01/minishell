@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 11:26:33 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 15:19:42 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/11 09:02:19 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_env	*env_lstnew(char *key, char *value, int hidden)
 		return (NULL);
 	new->hidden = hidden;
 	new->key = key;
-	if (hidden == 2)
+	if (hidden == 2 || hidden == 1)
 		new->value = ft_strdup(value);
 	else
 		new->value = value;

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 02:59:02 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/09 14:53:32 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 14:52:30 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ struct	s_synatx_tree;
 
 typedef struct s_ast_utils
 {
-	char		**files;
+	char		*out;
+	char		*in;
 	char		*args;
 	int			in_pipe;
 	int			flag;
@@ -31,22 +32,27 @@ typedef struct s_ast_utils
 	t_lexer		**sub;
 	int			echo_flag;
 	int			exit;
+	int			flag1;
+	int			flag2;
 }	t_ast_utils;
 
+void		skip_token(t_token **tok, t_lexer **lex);
 void		init_parser(t_lexer **lexer, t_syntax_tree **tree);
 void		p_expand_tree(t_ast_node *node);
-t_ast_node	*p_build_tree(t_lexer **lex);
+t_ast_node	*p_build_tree(t_lexer **lex, t_token *token);
 t_ast_utils	*p_init_vars(t_ast_utils **util);
 char		*p_create_cmd_args(char *value, char *args);
-int			p_parse_simple_command(t_ast_utils **util, t_lexer **lex);
-t_ast_node	*p_build_pipeline(t_lexer **lex);
-int			p_parse_pipeline(t_ast_utils **util, t_lexer **lex);
-int			p_parse_operators(t_ast_utils **util, t_lexer **lex);
-int			p_parse_redirect(t_ast_utils **util, t_lexer **lex);
+int			p_parse_simple_command(t_ast_utils **util,
+				t_lexer **lex, t_token *tok);
+t_ast_node	*p_build_pipeline(t_lexer **lex, t_token *tok);
+int			p_parse_pipeline(t_ast_utils **util, t_lexer **lex, t_token *tok);
+int			p_parse_operators(t_ast_utils **util, t_lexer **lex, t_token **tok);
+int			p_parse_redirect(t_ast_utils **util, t_lexer **lex, t_token **tok);
 void		redirect_access(t_ast_utils **util);
 void		redirect_access_in(t_ast_utils **util);
 t_ast_node	*p_build_simple_command(t_ast_utils *util);
 t_ast_node	*p_build_separator(t_ast_node *left, t_ast_node *right, int type);
+t_token		*copy_token_list(t_token **src);
 /* 
  * Create function for all cases :::
  * -> REDIRECT IN

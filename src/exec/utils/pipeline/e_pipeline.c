@@ -6,12 +6,13 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:24 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/08 19:14:11 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/10 17:13:50 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../includes/execute.h"
 #include "../../../../includes/builtins.h"
+#include "../../../../includes/signals.h"
 
 void	e_pipeline_parent(t_ast_node *node, t_exec_utils *util,
 							int *pid, int fd[2])

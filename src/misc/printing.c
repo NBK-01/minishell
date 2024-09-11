@@ -6,54 +6,39 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:06:01 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/08 18:23:55 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 15:38:43 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
 #include "../../includes/minishell.h"
+#include "../../includes/token.h"
 
-static void	print_tokens(t_token *token_list, int id)
+void	modify_pwd(t_env **env)
 {
-	while (token_list)
-	{
-		if (token_list->value)
-		{
-			if (id == 0)
-				printf("MAIN LEVEL: %s\n", token_list->value);
-			else
-			{
-				printf("CHILD LEVEL %d: %s\n", id, token_list->value);
-			}
-		}
-		token_list = token_list->next;
-	}
-}
+	char	*pwd;
+	t_env	*head;
+	t_env	*new;
 
-void	l_recursive_print(t_lexer *lex, int id)
-{
-	int				i;
-	t_lex_ll		**child;
-
-	i = 0;
-	if (!lex)
+	head = (*env);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
 		return ;
-	if (lex->token_list)
-		print_tokens(lex->token_list, id);
-	if ((*lex->child))
+	while (head)
 	{
-		while ((*lex->child))
+		if (!ft_strcmp(head->key, "PWD"))
 		{
-			child = lex->child;
-			while ((*child))
-			{
-				if ((*child)->lexer)
-					l_recursive_print((*child)->lexer, id + 1);
-				(*child) = (*child)->next;
-			}
-			i++;
+			if (head->value)
+				free(head->value);
+			head->value = ft_strdup(pwd);
+			free(pwd);
+			return ;
 		}
+		head = head->next;
 	}
+	new = env_lstnew("PWD", pwd, 2);
+	free(pwd);
+	env_lstadd_back(env, new);
 }
 
 void	free_split(char **array)
@@ -70,4 +55,17 @@ void	free_split(char **array)
 		}
 		free(array);
 	}
+}
+
+void	free_shell(t_token *token, t_lexer *lex)
+{
+	free_token_ll(token);
+	free(lex->util);
+	free(lex);
+}
+
+void	handle_eof(t_exec_utils *util)
+{
+	ft_putstr_fd("exit\n", 1);
+	exit(util->code);
 }

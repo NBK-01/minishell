@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 17:08:39 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 09:09:52 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:19:39 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_path
 	char	*result;
 }	t_path;
 
+void	signal_exec(t_ast_node *node);
+char	*my_getenv(char *name, t_env *env_ll);
 void	assign_code(pid_t pid, int *status, t_exec_utils *util);
 int		check_path(char *path, t_exec_utils *util);
 void	check_in(t_ast_node *node, int pipefd[2],

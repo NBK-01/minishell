@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:10:49 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 11:37:54 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:39:40 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	expand_var(t_expand *ex, t_env *env)
 	ex->len = ex->start - ex->var_start;
 	if (ex->len > 0)
 	{
-		ex->var_name = strndup(ex->var_start, ex->len);
+		ex->var_name = ft_strndup(ex->var_start, ex->len);
 		if (ex->var_name)
 		{
 			ex->env_value = get_env_value(ex->var_name, env);

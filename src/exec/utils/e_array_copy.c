@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:15:22 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/08 18:18:00 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:17:53 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static char	*create_key_value_string(char *key, char *value)
 	str = malloc(total_len * sizeof(char));
 	ft_strcpy(str, key);
 	ft_strcat(str, "=");
-	ft_strcat(str, value);
+	if (value && str)
+		ft_strcat(str, value);
 	return (str);
 }
 
@@ -66,4 +67,18 @@ void	copy_list_to_array(t_env *head, char **arr)
 		head = head->next;
 		i++;
 	}
+}
+
+char	*my_getenv(char *name, t_env *env_ll)
+{
+	t_env	*curr;
+
+	curr = env_ll;
+	while (curr)
+	{
+		if (!(ft_strcmp(curr->key, name)))
+			return (curr->value);
+		curr = curr->next;
+	}
+	return (NULL);
 }

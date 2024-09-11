@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:10:31 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 14:59:22 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:14:14 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	apply_recur(t_lexer **lex, t_token **token, int *state, int type)
 	(*lex)->c_token = malloc(sizeof(t_token));
 	init_lexer((*lex)->util->input_ptr, &(*token)->sub_lexer,
 		&(*lex)->c_token, (*lex)->util->env);
+	(*lex)->c_token = (*token)->sub_lexer->token_list;
 	(*lex)->util->i += (*token)->sub_lexer->util->i;
 	(*lex)->util->input_ptr += (*token)->sub_lexer->util->i;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:52 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/03 16:14:13 by nbk              ###   ########.fr       */
+/*   Updated: 2024/09/11 08:55:35 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ void	print_env_list(t_env *list)
 {
 	while (list)
 	{
-		if (list->hidden == 0)
-			printf("%s=%s\n", list->key, list->value);
+		if (list->hidden == 0 || !ft_strcmp(list->key, "OLDPWD")
+			|| !ft_strcmp(list->key, "PWD"))
+		{
+			if (list->key && list->value)
+				printf("%s=%s\n", list->key, list->value);
+		}
 		list = list->next;
 	}
 }

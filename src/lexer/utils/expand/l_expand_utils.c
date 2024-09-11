@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 03:10:21 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/09 11:36:46 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:39:20 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	expand_helper(t_expand *ex, t_env *env)
 	while (*ex->start && *ex->start != '$')
 		ex->start++;
 	ex->text_len = ex->start - ex->text_start;
-	ex->text = strndup(ex->text_start, ex->text_len);
+	ex->text = ft_strndup(ex->text_start, ex->text_len);
 	if (ex->text)
 	{
 		if (ex->list_head)

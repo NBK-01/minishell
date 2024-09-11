@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:58 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 15:08:20 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 07:18:12 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include "../../includes/execute.h"
 #include "../../includes/signals.h"
 
-void	exit_helper(t_exec_utils *util)
+void	exit_helper(t_exec_utils **util)
 {
-	if (g_mini_code)
+	if (g_mini.mini_code)
 	{
-		util->code = g_mini_code;
+		(*util)->code = g_mini.mini_code;
 	}
 }
 
@@ -30,7 +30,7 @@ void	modify_exit_code(t_env *env, t_exec_utils *util)
 	t_env	*head;
 	t_env	*new;
 
-	exit_helper(util);
+	exit_helper(&util);
 	head = env;
 	str = ft_itoa(util->code);
 	while (head)
@@ -40,6 +40,7 @@ void	modify_exit_code(t_env *env, t_exec_utils *util)
 			if (head->value)
 				free(head->value);
 			head->value = str;
+			g_mini.mini_code = 0;
 			return ;
 		}
 		head = head->next;
@@ -47,6 +48,7 @@ void	modify_exit_code(t_env *env, t_exec_utils *util)
 	new = env_lstnew("?", str, 2);
 	free(str);
 	env_lstadd_back(&env, new);
+	g_mini.mini_code = 0;
 }
 
 int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
@@ -55,10 +57,8 @@ int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 	t_syntax_tree	*tree;
 
 	if (!lex->util->input)
-	{
-		ft_putstr_fd("exit\n", 1);
-		exit(util->code);
-	}
+		handle_eof(util);
+	modify_exit_code((*env), util);
 	token = malloc(sizeof(t_token));
 	init_lexer(lex->util->input, &lex, &token, (*env));
 	if (close_values(lex->util->input, &lex, &util))
@@ -68,14 +68,15 @@ int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 			tree = ft_calloc(1, sizeof(t_syntax_tree));
 			init_parser(&lex, &tree);
 			lex->util->rec_count = 0;
-			free_lexer(lex);
+			free_lexer(&lex);
 			init_execute(tree, env, &util);
 			free_ast(tree->branch);
 			free(tree);
 			free_token_ll(token);
 		}
+		else
+			free_shell(token, lex);
 	}
-	modify_exit_code((*env), util);
 	return (0);
 }
 
@@ -87,6 +88,7 @@ void	prompt_loop(t_env *env)
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;
+	signal_handler();
 	while (1)
 	{
 		lex = malloc(sizeof(t_lexer));

@@ -6,27 +6,13 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:27 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/08 19:11:38 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:17:42 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/execute.h"
 #include "../../../includes/signals.h"
 #include "../../../includes/lexer.h"
-
-char	*my_getenv(char *name, t_env *env_ll)
-{
-	t_env	*curr;
-
-	curr = env_ll;
-	while (curr)
-	{
-		if (!(ft_strcmp(curr->key, name)))
-			return (curr->value);
-		curr = curr->next;
-	}
-	return (NULL);
-}
 
 static int	path_helper(char *exec, char **result)
 {
@@ -69,6 +55,14 @@ static void	doc_expand(char *line, int pipefd[2], t_env *env)
 {
 	line = expand_variables(line, 1, env);
 	write(pipefd[1], line, ft_strlen(line));
+	free(line);
+}
+
+static void	end_heredoc(char *line, int *flag, int pipefd[2])
+{
+	free(line);
+	*flag -= *flag;
+	close(pipefd[1]);
 }
 
 void	handle_doc(char *lim, int pipefd[2], t_env *env)
@@ -80,19 +74,19 @@ void	handle_doc(char *lim, int pipefd[2], t_env *env)
 	while (flag)
 	{
 		line = get_next_line(STDIN_FILENO);
-		signal(SIGINT, sigint_heredoc);
-		if (g_mini_code == 52)
+		if (!line)
 		{
-			free(line);
-			flag -= flag;
-			close(pipefd[1]);
+			end_heredoc(line, &flag, pipefd);
+			return ;
+		}
+		if (g_mini.mini_code == 130)
+		{
+			end_heredoc(line, &flag, pipefd);
 			return ;
 		}
 		if (ft_strncmp(line, lim, ft_strlen(lim)) == 0)
 		{
-			free(line);
-			flag -= flag;
-			close(pipefd[1]);
+			end_heredoc(line, &flag, pipefd);
 			return ;
 		}
 		doc_expand(line, pipefd, env);

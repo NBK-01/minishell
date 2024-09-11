@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:40:55 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 14:26:46 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 07:33:57 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,16 @@ typedef struct s_expand
 	size_t		data_len;
 }	t_expand;
 
-int		post_and_or(t_token *temp, t_exec_utils **utils);
-int		post_redir(t_token *temp, t_exec_utils **utils);
-int		post_pipe(t_token *temp, t_exec_utils **utils);
+int		handle_redirection_type(t_token *temp, t_exec_utils *utils);
+int		handle_pipe_error(t_token *temp, t_exec_utils *utils);
+int		validate_parentheses(t_token *temp, t_exec_utils *utils);
+int		validate_tokens(t_token *temp, t_exec_utils **utils);
+int		valid_tok(t_token *temp, t_exec_utils **utils);
+int		handle_semicolon_error(t_token *temp, t_exec_utils *utils);
+int		handle_logical_operators(t_token *temp, t_exec_utils *utils);
+void	print_syntax_error(t_token *token, char *prefix, t_exec_utils *utils);
+int		handle_redirection_error(t_token *temp, t_exec_utils *utils);
+int		validate_parentheses(t_token *temp, t_exec_utils *utils);
 t_node	*append_node(t_node *head, char *data);
 void	free_list(t_node *head);
 void	expand_helper(t_expand *ex, t_env *env);

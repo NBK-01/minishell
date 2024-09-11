@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:40:59 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 15:08:34 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 08:54:50 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@
 /*/////////////////////////////////////////////////////////////
 ////////////		INITS			    //////////
 ////////////////////////////////////////////////////////////*/
+void	modify_pwd(t_env **env);
+void	handle_eof(t_exec_utils *util);
+void	free_shell(t_token *token, t_lexer *lex);
 void	free_env_list(t_env **env);
 void	free_split(char **split);
 void	free_ast(t_ast_node *node);
-void	free_lexer(t_lexer *lex);
+void	free_lexer(t_lexer **lex);
 void	free_token(t_token *token);
 void	prompt_loop(t_env *env);
 int		init_shell(t_lexer *lex, t_exec_utils *util, t_env **env);

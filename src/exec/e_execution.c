@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:17 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 09:07:59 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/11 14:46:04 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,14 @@ int	e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env,
 		return (util->code);
 	if (builtins_two(node, util, env, path))
 		return (util->code);
+	signal_handler();
+	signal_exec(node);
 	pid = fork();
 	if (pid == 0)
 		proccess_one(node, util, env, path);
 	else if (pid > 0)
 		assign_code(pid, &status, util);
+	signal_handler();
 	free(path);
 	return (util->code);
 }
