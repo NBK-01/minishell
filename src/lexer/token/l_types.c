@@ -39,8 +39,6 @@ int	return_operators(char c)
 		return (TYPE_AMPERSAND);
 	if (c == ';')
 		return (TYPE_SEMI);
-	if (c == '=')
-		return (TYPE_EQUAL);
 	if (c == '+')
 		return (TYPE_PLUS);
 	if (c == '-')

@@ -55,14 +55,12 @@ int	path_cd(t_exec_utils *util, char **args)
 	char	*path;
 	char	*home;
 
-	printf("ARGS[1]: %s\n", args[1]);
 	home = get_cd_path(&util->env, "HOME");
 	path = ft_strdup(args[1]);
 	if (path)
 	{
 		if (path[0] == '~')
 			path = ft_strjoin(home, ft_substr(path, 1, ft_strlen(path) - 1));
-		printf("PATH: %s\n", path);
 		if (chdir(path) != 0)
 		{
 			util->code = 1;
@@ -108,8 +106,6 @@ int	oldpwd_cd(t_exec_utils *util, char **args)
 
 void	change_dir(t_exec_utils *util, char **args)
 {
-			printf("PATH: ");
-
 	if (args[1] && args[2])
 	{
 		util->code = 1;

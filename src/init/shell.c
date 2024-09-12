@@ -85,6 +85,7 @@ void	prompt_loop(t_env *env)
 	char			*input;
 	t_lexer			*lex;
 	t_exec_utils	*util;
+	char		*prompt;
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;
@@ -94,7 +95,9 @@ void	prompt_loop(t_env *env)
 		lex = malloc(sizeof(t_lexer));
 		lex->util = malloc(sizeof(t_lex_utils));
 		lex->util->rec_count = 0;
-		input = readline("\033[1;3142@minishell=> \033[0;0m");
+		prompt = get_prompt(&env, util->code);
+		input = readline(prompt);
+		free(prompt);
 		add_history(input);
 		lex->util->input = input;
 		if (init_shell(lex, util, &env))

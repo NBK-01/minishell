@@ -31,7 +31,7 @@ int	l_assign_type(char c)
 	if (c == ' ' || c == '\t' || c == '\\' || c == '\n')
 		return (return_whitespaces(c));
 	if (c == '|' || c == '<' || c == '>' || c == '&'
-		|| c == ';' || c == '=')
+		|| c == ';')
 		return (return_operators(c));
 	if (c == 34 || c == 39 || c == '(' || c == ')')
 		return (return_literals(c));

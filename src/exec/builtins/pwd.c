@@ -26,8 +26,11 @@ void	exec_pwd(char **args, t_exec_utils **util)
 		return ;
 	}
 	cwd = getcwd(NULL, 0);
-	if (cwd == NULL){
-		perror("pwd");return ;}
+	if (cwd == NULL)
+	{
+		perror("pwd");
+		return ;
+	}
 	if (cwd)
 	{
 		printf("%s\n", cwd);

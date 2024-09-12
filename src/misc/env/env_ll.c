@@ -39,7 +39,7 @@ char	*get_value(char *str)
 
 	delim = ft_strchr(str, '=');
 	if (delim != NULL)
-		value = delim + 1;
+		value = ft_strdup(delim + 1);
 	else
 		value = NULL;
 	return (value);
@@ -80,22 +80,16 @@ void	copy_env(t_env **env_ll, char **env)
 	char		*value;
 	t_env		*new;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		key = get_key(env[i]);
 		value = get_value(env[i]);
-		if (!ft_strcmp(key, "OLDPWD") || !ft_strcmp(key, "PWD"))
-		{
-			new = env_lstnew(key, value, 2);
-			env_lstadd_back(env_ll, new);
-		}
-		else
-		{
-			new = env_lstnew(key, value, 0);
-			env_lstadd_back(env_ll, new);
-		}
-		i++;
+		new = env_lstnew(key, value, 0);
+		env_lstadd_back(env_ll, new);
+		if (value)
+			free(value);
+		free(key);
 	}
 	add_special_env(env_ll);
 }

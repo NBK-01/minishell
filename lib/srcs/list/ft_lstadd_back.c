@@ -71,7 +71,8 @@ t_env	*ft_lstcpy(t_env **stack)
 		*temp = (t_env *)malloc(sizeof(t_env));
 		if (!*temp)
 			return (NULL);
-		(*temp)->key = ft_strdup(src->key);
+		if (src->key)
+			(*temp)->key = ft_strdup(src->key);
 		if (src->value != NULL)
 			(*temp)->value = ft_strdup(src->value);
 		else

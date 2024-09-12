@@ -21,9 +21,17 @@
 # include "../lib/includes/libft.h"
 # include "./structs.h"
 
+# define RESET "\033[0m"
+# define GREEN "\033[32m"
+# define ORANGE "\033[33m"
+# define BOLD_RED "\033[1;31m"
 /*/////////////////////////////////////////////////////////////
 ////////////		INITS			    //////////
 ////////////////////////////////////////////////////////////*/
+///
+char	*get_prompt(t_env **env, int code);
+char	*get_value(char *str);
+char	*get_key(char *str);
 void	modify_pwd(t_env **env);
 void	handle_eof(t_exec_utils *util);
 void	free_shell(t_token *token, t_lexer *lex);

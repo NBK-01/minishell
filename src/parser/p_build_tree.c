@@ -32,7 +32,7 @@ static void	first_part(t_lexer **lex, t_ast_utils **util,
 
 	token = (*lex)->token_list;
 	if (token->type == TYPE_MINUS || token->type == TYPE_PLUS
-		|| token->type == TYPE_EQUAL || token->type == TOKEN
+		|| token->type == TOKEN
 		|| token->type == TYPE_LPAREN)
 		p_parse_simple_command(util, lex, tok);
 	else if (token->type == TYPE_RSHIFT || token->type == TYPE_LSHIFT

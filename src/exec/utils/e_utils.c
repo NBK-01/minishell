@@ -90,6 +90,5 @@ void	handle_doc(char *lim, int pipefd[2], t_env *env)
 			return ;
 		}
 		doc_expand(line, pipefd, env);
-		free(line);
 	}
 }
