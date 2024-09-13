@@ -30,7 +30,7 @@
 ////////////////////////////////////////////////////////////*/
 ///
 char	*get_prompt(t_env **env, int code);
-char	*get_value(char *str);
+char	*get_value(const char *str);
 char	*get_key(char *str);
 void	modify_pwd(t_env **env);
 void	handle_eof(t_exec_utils *util);

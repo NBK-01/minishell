@@ -56,7 +56,7 @@ void	copy_list_to_array(t_env *head, char **arr);
 int		get_list_length(t_env *head);
 char	**allocate_array(int size);
 void	e_redirection(t_ast_node *node, t_exec_utils *util);
-void	handle_doc(char *lim, int pipefd[2], t_env *env);
+void	handle_doc(t_ast_node *node, int pipefd[2], t_env *env);
 int		e_simple_command(t_ast_node *node, t_exec_utils *util,
 			t_env **env, char *path);
 void	e_operator_and(t_ast_node *node, t_exec_utils *util, t_env **env);

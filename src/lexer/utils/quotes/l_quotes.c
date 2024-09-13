@@ -55,7 +55,7 @@ char	*l_remove_quotes(t_token *token)
 {
 	char	*clean;
 
-	clean = ft_calloc(1, ft_strlen(token->value) + 1);
+	clean = ft_calloc(1, ft_strlen(token->value) + 1);	
 	clean_input(token->value, clean);
 	free(token->value);
 	return (clean);

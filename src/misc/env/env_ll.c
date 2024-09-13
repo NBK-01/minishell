@@ -25,14 +25,15 @@ char	*get_key(char *str)
 	if (delim != NULL)
 	{
 		*delim = '\0';
-		key = temp;
+		key = ft_strdup(temp);
 	}
 	else
-		key = temp;
+		key = ft_strdup(temp);
+	free(temp);
 	return (key);
 }
 
-char	*get_value(char *str)
+char	*get_value(const char *str)
 {
 	char	*delim;
 	char	*value;
@@ -75,7 +76,7 @@ void	add_special_env(t_env **env_ll)
 
 void	copy_env(t_env **env_ll, char **env)
 {
-	int			i;
+	int		i;
 	char		*key;
 	char		*value;
 	t_env		*new;
@@ -87,8 +88,7 @@ void	copy_env(t_env **env_ll, char **env)
 		value = get_value(env[i]);
 		new = env_lstnew(key, value, 0);
 		env_lstadd_back(env_ll, new);
-		if (value)
-			free(value);
+		free(value);
 		free(key);
 	}
 	add_special_env(env_ll);

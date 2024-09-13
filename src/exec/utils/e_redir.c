@@ -27,7 +27,7 @@ void	check_in(t_ast_node *node, int pipefd[2], t_exec_utils *util)
 		if (node->here_doc)
 		{
 			pipe(pipefd);
-			handle_doc(node->in, pipefd, util->env);
+			handle_doc(node, pipefd, util->env);
 			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
 		}
