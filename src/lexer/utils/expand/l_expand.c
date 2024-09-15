@@ -39,8 +39,7 @@ void	expand_var(t_expand *ex, t_env *env)
 		if (ex->var_name)
 		{
 			ex->env_value = get_env_value(ex->var_name, env);
-			if (ex->var_name)
-				free(ex->var_name);
+			free(ex->var_name);
 			if (ex->env_value && ft_strlen(ex->env_value) > 0)
 			{
 				ex->list_head = append_node(ex->list_head,

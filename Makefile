@@ -10,7 +10,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
-SRCS = main misc/prompt init/lexer init/shell init/parser init/execute misc/printing misc/env/env_ll misc/env/env_utils misc/memory signals
+SRCS = main init/lexer init/shell init/parser init/execute misc/printing misc/env/env_ll misc/env/env_utils misc/memory signals
 
 BUILTIN_SRCS = exec/builtins/echo exec/builtins/pwd exec/builtins/exit exec/builtins/env exec/builtins/cd \
 exec/builtins/unset exec/builtins/export exec/builtins/export_utils
@@ -20,7 +20,7 @@ utils/quotes/l_quotes utils/glob/l_glob utils/glob/l_glob_utils \
 utils/operators/l_ampersand utils/operators/l_pipes utils/operators/l_redirect \
 utils/parens/l_parens utils/parens/l_paren_utils utils/expand/l_expand utils/expand/l_expand_utils
 
-PARSER_SRCS = p_build_tree p_build_pipeline utils/p_utils utils/nodes/p_build_nodes utils/nodes/p_parse_nodes
+PARSER_SRCS = p_build_tree p_build_pipeline utils/p_utils utils/p_utils_more utils/nodes/p_build_nodes utils/nodes/p_parse_nodes
 
 EXEC_SRCS = e_execution utils/e_utils utils/pipeline/e_pipeline utils/e_helpers utils/e_redir utils/e_array_copy utils/get_next_line
 

@@ -122,7 +122,10 @@ int	e_simple_command(t_ast_node *node, t_exec_utils *util, t_env **env,
 	if (pid == 0)
 		proccess_one(node, util, env, path);
 	else if (pid > 0)
+	{
+		close(node->fd_here_doc);
 		assign_code(pid, &status, util);
+	}
 	signal_handler();
 	free(path);
 	return (util->code);

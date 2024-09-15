@@ -56,91 +56,33 @@ void	bubble_sort(t_env **stack)
 	}
 }
 
-void	export_arg_value(t_env **env, char *key, char *value)
+int	valid_export(char **args)
 {
-	t_env	*head;
-	t_env	*new;
+	int	valid;
 
-	head = (*env);
-	while (head)
+	valid = valid_multi_args(args);
+	if (ft_strchr(args[1], '-') || ft_strchr(args[1], '+'))
 	{
-		if (!ft_strcmp(key, head->key))
-		{
-			internal_unset(env, key);
-			break ;
-		}
-		head = head->next;
+		ft_putendl_fd(" not a valid identifier", 2);
+		return (1);
 	}
-	new = env_lstnew(key, value, 0);
-	env_lstadd_back(env, new);
+	if (valid && valid > 1)
+		return (valid);
+	if (valid_identifiers(args))
+		return (1);
+	return (0);
 }
 
-void	export_null_arg(t_env **env, char *arg)
+int	exec_export_2(t_env **env, char **args)
 {
-	t_env	*head;
-	t_env	*new;
-
-	head = (*env);
-	while (head)
+	if (args)
 	{
-		if (!ft_strcmp(arg, head->key))
-			return ;
-		head = head->next;
-	}
-	new = env_lstnew(arg, "", 1);
-	env_lstadd_back(env, new);
-
-}
-
-void	export_args(t_env **env, char *arg)
-{
-	char	*delim;
-	char	*temp;
-	char	*key;
-	char	*value;
-
-	temp = arg;
-	delim = ft_strchr(temp, '=');
-	if (!delim)
-		export_null_arg(env, arg);
-	if (delim)
-	{
-		key = get_key(arg);
-		value = get_value(arg);
-		export_arg_value(env, key, value);
-		if (value)
-			free(value);
-		free(key);
-	}
-	
-}
-
-bool	validate_export_args(char *arg)
-{
-	if (ft_strchr(arg, '-') || ft_strchr(arg, '+'))
-		return (false);
-	if (!ft_isalpha(arg[0]) && arg[0] != '_')
-		return (false);
-	return (true);
-}
-
-void	handle_export_args(t_env **env, t_exec_utils **util, char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[++i])
-	{
-		if (!validate_export_args(args[i]))
-		{
-			ft_putstr_fd("minishell: export: ", 2);
-			ft_putstr_fd(args[i], 2);
-			ft_putendl_fd(" :not a valid identifier", 2);
-			(*util)->code = 2;
-		}
+		if (exec_export_body(env, args) == 1)
+			return (1);
 		else
-			export_args(env, args[i]);
+			return (0);
 	}
+	return (0);
 }
 
 void	exec_export(t_env **env, t_exec_utils *util, char **args)
@@ -167,5 +109,5 @@ void	exec_export(t_env **env, t_exec_utils *util, char **args)
 		return ;
 	}
 	else
-		handle_export_args(env, &util, args);
+		util->code = exec_export_2(env, args);
 }

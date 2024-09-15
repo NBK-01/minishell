@@ -19,7 +19,8 @@ void	free_token_ll(t_token *token)
 	{
 		if (token->sub_lexer)
 			free_lexer(&token->sub_lexer);
-		free(token->value);
+		if (token->value)
+			free(token->value);
 		free_token_ll(token->next);
 		if (token)
 			free(token);
@@ -31,7 +32,7 @@ int	l_assign_type(char c)
 	if (c == ' ' || c == '\t' || c == '\\' || c == '\n')
 		return (return_whitespaces(c));
 	if (c == '|' || c == '<' || c == '>' || c == '&'
-		|| c == ';')
+		|| c == ';' || c == '=')
 		return (return_operators(c));
 	if (c == 34 || c == 39 || c == '(' || c == ')')
 		return (return_literals(c));

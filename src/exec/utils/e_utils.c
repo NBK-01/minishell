@@ -51,28 +51,34 @@ char	*get_path(char **s_cmd, t_env **env_ll, char *result)
 	return (result);
 }
 
-static void	doc_expand(char *line, int pipefd[2], t_env *env, int expand)
+static void doc_expand(char *line, int pipefd[2], t_env *env, int expand)
 {
+	char *temp;
 	if (expand == 2)
 		line = line;
 	else
-		line = expand_variables(line, 1, env);
+	{
+		temp = expand_variables(line, 1, env);
+		free(line);
+		line = temp;
+	}
 	write(pipefd[1], line, ft_strlen(line));
 	free(line);
+	line = NULL;
 }
 
-static void	end_heredoc(char *line, int *flag, int pipefd[2])
+static void end_heredoc(char *line, int *flag, int pipefd[2])
 {
 	free(line);
 	*flag -= *flag;
 	close(pipefd[1]);
 }
 
-void	handle_doc(t_ast_node *node, int pipefd[2], t_env *env)
+void handle_doc(t_ast_node *node, int pipefd[2], t_env *env)
 {
-	char		*line;
-	int		flag;
-	char		*lim;
+	char *line;
+	int flag;
+	char *lim;
 
 	flag = 1;
 	lim = node->in;
@@ -82,17 +88,17 @@ void	handle_doc(t_ast_node *node, int pipefd[2], t_env *env)
 		if (!line)
 		{
 			end_heredoc(line, &flag, pipefd);
-			return ;
+			return;
 		}
 		if (g_mini.mini_code == 130)
 		{
 			end_heredoc(line, &flag, pipefd);
-			return ;
+			return;
 		}
 		if (ft_strncmp(line, lim, ft_strlen(lim)) == 0)
 		{
 			end_heredoc(line, &flag, pipefd);
-			return ;
+			return;
 		}
 		doc_expand(line, pipefd, env, node->here_doc);
 	}

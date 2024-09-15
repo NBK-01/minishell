@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
-#include <stdarg.h>
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -31,44 +30,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res[i] = '\0';
 	return (res);
 }
-
-static size_t total_length(int count, va_list args) {
-    size_t len = 0;
-    for (int i = 0; i < count; i++) {
-        const char *str = va_arg(args, const char *);
-        if (str)
-            len += strlen(str);
-    }
-    return len;
+/* #include <stdio.h>
+int	main()
+{
+	char	s1[] = "Hello";
+	char	s2[] = " world";
+	char	*s = ft_strjoin(s1, s2);
+	printf("%s", s);
+	free(s);
 }
-
-char *ft_strjoin_n(int count, ...) {
-    if (count <= 0)
-        return NULL;
-    
-    va_list args;
-    va_start(args, count);
-
-    size_t len = total_length(count, args);
-    va_end(args);
-
-    char *result = (char *)malloc(len + 1);
-    if (!result)
-        return NULL;
-
-    va_start(args, count);
-    char *ptr = result;
-    for (int i = 0; i < count; i++) {
-        const char *str = va_arg(args, const char *);
-        if (str) {
-            while (*str) {
-                *ptr++ = *str++;
-            }
-        }
-    }
-    va_end(args);
-
-    *ptr = '\0';
-
-    return result;
-}
+*/

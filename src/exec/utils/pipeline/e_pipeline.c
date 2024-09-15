@@ -24,6 +24,7 @@ void	e_pipeline_parent(t_ast_node *node, t_exec_utils *util,
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
+		util->fd[1] = fd[1];
 		close(fd[1]);
 		if (!ft_strcmp(node->left->args[0], "()"))
 			code = e_traverse_tree(node->left->tree_link->branch,
@@ -50,6 +51,7 @@ void	e_pipeline_child(t_ast_node *node, t_exec_utils *util, int *pid,
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
+		util->fd[0] = fd[0];
 		close(fd[0]);
 		if (!ft_strcmp(node->right->args[0], "()"))
 			code = e_traverse_tree(node->right->tree_link->branch,

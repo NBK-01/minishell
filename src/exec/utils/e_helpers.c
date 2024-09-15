@@ -79,8 +79,8 @@ int	builtins_one(t_ast_node *node, t_exec_utils *util, t_env **env,
 			char *path)
 {
 	char	*oldpwd;
-	(void)env;
 
+	(void)env;
 	if (!ft_strcmp(node->args[0], "exit"))
 	{
 		if (handle_exit(util, node))
@@ -94,7 +94,9 @@ int	builtins_one(t_ast_node *node, t_exec_utils *util, t_env **env,
 		oldpwd = getcwd(NULL, 0);
 		change_dir(util, node->args);
 		if (oldpwd)
+		{
 			modify_oldpwd(&util->env, oldpwd);
+		}
 		modify_pwd(&util->env);
 		free(path);
 		return (1);

@@ -14,17 +14,13 @@
 #include "../../../includes/minishell.h"
 #include "../../../includes/builtins.h"
 
-void	free_env_node(t_env *node, int i)
+void	free_env_node(t_env *node)
 {
-	if (node->value)
-		free(node->value);
-	if (node->key)
-		free(node->key);
-	if (node && i == 0)
+	if (node)
 		free(node);
 }
 
-void	delete_env_node(t_env **env_list, const char *key, int i)
+void	delete_env_node(t_env **env_list, const char *key)
 {
 	t_env	*current;
 	t_env	*prev;
@@ -36,7 +32,8 @@ void	delete_env_node(t_env **env_list, const char *key, int i)
 	if (current != NULL && ft_strcmp(current->key, key) == 0)
 	{
 		*env_list = current->next;
-		free_env_node(current, i);
+		prev  = current;
+		free_env_node(current);
 		return ;
 	}
 	while (current != NULL && ft_strcmp(current->key, key) != 0)
@@ -47,14 +44,14 @@ void	delete_env_node(t_env **env_list, const char *key, int i)
 	if (current == NULL)
 		return ;
 	prev->next = current->next;
-	free_env_node(current, i);
+	free_env_node(current);
 }
 
 void	internal_unset(t_env **env, char *key)
 {
 	if (env == NULL || key == NULL)
 		return ;
-	delete_env_node(env, key, 0);
+	delete_env_node(env, key);
 }
 
 void	exec_unset(t_env **env_list, char **keys)
@@ -66,7 +63,7 @@ void	exec_unset(t_env **env_list, char **keys)
 	i = 1;
 	while (keys[i])
 	{
-		delete_env_node(env_list, keys[i], 0);
+		delete_env_node(env_list, keys[i]);
 		i++;
 	}
 }

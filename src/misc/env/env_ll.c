@@ -14,68 +14,32 @@
 #include "../../../includes/get_next_line.h"
 #include <fcntl.h>
 
-char	*special_char(char *str)
-{
-	char *temp;
-	int 	i;
-
-	i = 0;
-	while (str[i] != '=')
-		i++;
-	temp = malloc((i + 1) * sizeof(char));
-	i = 0;
-	while (str[i] != '=')
-	{
-		temp[i] = str[i];
-		i++;
-	}
-	temp[i] = '\0';
-	return (temp);
-}
-
-void	get_pair(char	*str, char **key, char **value)
-{
-	char *temp;
-	char *delim;
-	char	*try;
-
-	temp = ft_strdup(str);
-	delim = ft_strdup(ft_strchr(temp, '='));
-	try = special_char(str);
-	if (delim != NULL)
-	{
-		*value = ft_strdup(delim + 1);
-		// *delim = 0;
-		*key = ft_strdup(try);
-	}
-	else
-	{
-		value = NULL;
-		*key = ft_strdup(temp);
-	}
-	free(delim);
-	free(temp);
-	free(try);
-}
-
 char	*get_key(char *str)
 {
-	// char	*temp;
+	char	*temp;
+	char	*delim;
 	char	*key;
 
-	key = special_char(str);
-	// free(temp);
+	temp = ft_strdup(str);
+	delim = ft_strchr(temp, '=');
+	if (delim != NULL)
+	{
+		*delim = '\0';
+		key = temp;
+	}
+	else
+		key = temp;
 	return (key);
 }
 
-char	*get_value(const char *str)
+char	*get_value(char *str)
 {
 	char	*delim;
 	char	*value;
 
 	delim = ft_strchr(str, '=');
 	if (delim != NULL)
-		value = ft_strdup(delim + 1);
+		value = delim + 1;
 	else
 		value = NULL;
 	return (value);
@@ -111,19 +75,27 @@ void	add_special_env(t_env **env_ll)
 
 void	copy_env(t_env **env_ll, char **env)
 {
-	int		i;
+	int			i;
 	char		*key;
 	char		*value;
 	t_env		*new;
 
-	i = -1;
-	while (env[++i])
+	i = 0;
+	while (env[i])
 	{
-		get_pair(env[i], &key, &value);
-		new = env_lstnew(key, value, 0);
-		env_lstadd_back(env_ll, new);
-		free(value);
-		free(key);
+		key = get_key(env[i]);
+		value = get_value(env[i]);
+		if (!ft_strcmp(key, "OLDPWD") || !ft_strcmp(key, "PWD"))
+		{
+			new = env_lstnew(key, value, 2);
+			env_lstadd_back(env_ll, new);
+		}
+		else
+		{
+			new = env_lstnew(key, value, 0);
+			env_lstadd_back(env_ll, new);
+		}
+		i++;
 	}
 	add_special_env(env_ll);
 }

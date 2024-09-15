@@ -69,6 +69,7 @@ int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 			init_parser(&lex, &tree);
 			lex->util->rec_count = 0;
 			free_lexer(&lex);
+			here_doc_handler(tree->branch, &util);
 			init_execute(tree, env, &util);
 			free_ast(tree->branch);
 			free(tree);
@@ -85,19 +86,17 @@ void	prompt_loop(t_env *env)
 	char			*input;
 	t_lexer			*lex;
 	t_exec_utils	*util;
-	char		*prompt;
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;
+	util->env = env;
 	signal_handler();
 	while (1)
 	{
 		lex = malloc(sizeof(t_lexer));
 		lex->util = malloc(sizeof(t_lex_utils));
 		lex->util->rec_count = 0;
-		prompt = get_prompt(&env, util->code);
-		input = readline(prompt);
-		free(prompt);
+		input = readline("\033[1;3142@minishell=> \033[0;0m");
 		add_history(input);
 		lex->util->input = input;
 		if (init_shell(lex, util, &env))

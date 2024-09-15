@@ -46,4 +46,5 @@ void	sigint_heredoc(int signum)
 {
 	(void)signum;
 	g_mini.mini_code = 130;
+	ft_putstr_fd(" \n", 1);
 }

@@ -22,13 +22,7 @@ int	p_parse_in(t_ast_utils **util, t_lexer **lex, t_token **tok)
 
 	token = (*lex)->token_list;
 	if (token->type == TYPE_HEREDOC)
-	{
-		if (token->expand == -10)
-			(*util)->here_doc = 2;
-		else
-			(*util)->here_doc = 1;
-
-	}
+		(*util)->here_doc = 1;
 	if (token->next && token->next->type == TOKEN)
 	{
 		(*util)->in = ft_strdup(token->next->value);

@@ -94,3 +94,30 @@ char	*get_value_exp(char *str)
 	free(temp);
 	return (value);
 }
+
+int	exec_export_body(t_env **env, char **args)
+{
+	char	*key;
+	char	*value;
+	t_env	*new;
+	int		flag;
+
+	if (valid_export(args) == 1)
+		return (1);
+	if (!add_new_env(args, env))
+		return (0);
+	if (valid_export(args) > 1)
+		return (export_multi_args(env, args));
+	else
+	{
+		key = ft_strdup(args[1]);
+		value = ft_strdup(args[3]);
+	}
+	change_env_values(env, value, key, &flag);
+	if (flag)
+	{
+		new = env_lstnew(key, value, 0);
+		env_lstadd_back(env, new);
+	}
+	return (10);
+}

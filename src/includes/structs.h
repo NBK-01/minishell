@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbk <nbk@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 17:03:29 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/10 13:46:52 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/09 03:36:53 by nbk              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ typedef struct s_ast_node
 	struct s_syntax_tree	*tree_link;
 	struct s_lexer			**lexer;
 	t_node_type				type;
-	struct s_lexer			**sub;
+	struct s_token			*sub;
 	int						append;
 	int						here_doc;
-	int						fd_here_doc;
 	int						exit;
 }	t_ast_node;
 
@@ -63,7 +62,6 @@ typedef struct s_exec_utils
 	int		code;
 	int		exit_code;
 	int		code_count;
-	int		fd[2];
 	t_env	*env;
 }	t_exec_utils;
 
@@ -99,7 +97,6 @@ typedef struct s_lex_utils
 typedef struct s_lexer
 {
 	t_token		*token_list;
-	t_token		*c_token;
 	t_lex_utils	*util;
 	t_lex_ll	**child;
 	int			count;

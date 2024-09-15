@@ -22,11 +22,6 @@ int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 	token = lex->token_list;
 	while (token)
 	{
-		if (token->type == TYPE_HEREDOC && (token->next->value[0] == '\'' || token->next->value[0] == '\"'))
-		{
-			token->expand = -10;
-			token->next->expand = 0;
-		}
 		if (token->type == TOKEN)
 		{
 			matches = l_glob(token->value, &hits);
