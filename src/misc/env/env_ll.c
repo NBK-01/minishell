@@ -14,22 +14,57 @@
 #include "../../../includes/get_next_line.h"
 #include <fcntl.h>
 
-char	*get_key(char *str)
+char	*special_char(char *str)
 {
-	char	*temp;
-	char	*delim;
-	char	*key;
+	char *temp;
+	int 	i;
+
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	temp = malloc((i + 1) * sizeof(char));
+	i = 0;
+	while (str[i] != '=')
+	{
+		temp[i] = str[i];
+		i++;
+	}
+	temp[i] = '\0';
+	return (temp);
+}
+
+void	get_pair(char	*str, char **key, char **value)
+{
+	char *temp;
+	char *delim;
+	char	*try;
 
 	temp = ft_strdup(str);
-	delim = ft_strchr(temp, '=');
+	delim = ft_strdup(ft_strchr(temp, '='));
+	try = special_char(str);
 	if (delim != NULL)
 	{
-		*delim = '\0';
-		key = ft_strdup(temp);
+		*value = ft_strdup(delim + 1);
+		// *delim = 0;
+		*key = ft_strdup(try);
 	}
 	else
-		key = ft_strdup(temp);
+	{
+		value = NULL;
+		*key = ft_strdup(temp);
+	}
+	free(delim);
 	free(temp);
+	free(try);
+}
+
+char	*get_key(char *str)
+{
+	// char	*temp;
+	char	*key;
+
+	key = special_char(str);
+	// free(temp);
 	return (key);
 }
 
@@ -84,8 +119,7 @@ void	copy_env(t_env **env_ll, char **env)
 	i = -1;
 	while (env[++i])
 	{
-		key = get_key(env[i]);
-		value = get_value(env[i]);
+		get_pair(env[i], &key, &value);
 		new = env_lstnew(key, value, 0);
 		env_lstadd_back(env_ll, new);
 		free(value);
