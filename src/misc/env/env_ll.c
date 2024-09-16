@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:52:00 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/11 09:47:49 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:02:32 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	add_special_env(t_env **env_ll)
 
 void	copy_env(t_env **env_ll, char **env)
 {
-	int		i;
+	int			i;
 	char		*key;
 	char		*value;
 	t_env		*new;

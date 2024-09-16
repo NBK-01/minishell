@@ -6,23 +6,28 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:12:41 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/11 15:06:21 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:11:16 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/execute.h"
 
+static void	init_vars(int *flag, int *i)
+{
+	*flag = 0;
+	*i = 0;
+}
+
 int	check_char(char **args)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 	int	flag;
 
-	flag = 0;
-	i = 1;
+	init_vars(&flag, &i);
 	if (ft_strncmp(args[i], "-n", 2) != 0)
 		return (0);
-	while (args[i])
+	while (args[++i])
 	{
 		j = 1;
 		while (args[i][j])
@@ -38,7 +43,6 @@ int	check_char(char **args)
 				return (flag);
 		}
 		flag = 1;
-		i++;
 	}
 	return (1);
 }
@@ -64,21 +68,6 @@ int	count_dash(char *args)
 		return (1);
 }
 
-void	opt_helper(t_ast_node *node)
-{
-	int	i;
-
-	i = 1;
-	while (node->args[i])
-	{
-		if (i > 1)
-			ft_putstr_fd(" ", 1);
-		ft_putstr_fd(node->args[i], 1);
-		i++;
-	}
-	ft_putstr_fd("\n", 1);
-}
-
 int	exec_echo_opt(t_ast_node *node)
 {
 	int	i;
@@ -96,34 +85,12 @@ int	exec_echo_opt(t_ast_node *node)
 		{
 			if (i > j)
 				ft_putstr_fd(" ", 1);
-	 		ft_putstr_fd(node->args[i], 1);
-	 		i++;
+			ft_putstr_fd(node->args[i], 1);
+			i++;
 		}
 		return (1);
 	}
 	return (0);
-
-	// j = 0;
-	// i = 1;
-	// if (!ft_strncmp("-n", node->args[1], 2))
-	// {
-	// 	while (count_dash(node->args[i]))
-	// 	{
-	// 		i++;
-	// 	}
-	// 	j = i;
-	// 	while (node->args[i])
-	// 	{
-	// 		if (i > j)
-	// 			ft_putstr_fd(" ", 1);
-	// 		ft_putstr_fd(node->args[i], 1);
-	// 		i++;
-	// 	}
-	// 	// else
-	// 		opt_helper(node);
-	// 	return (1);
-	// }
-	// return (0);
 }
 
 void	exec_echo(t_ast_node *node, t_exec_utils **util)

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 02:59:02 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/11 14:52:30 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:39:07 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ typedef struct s_ast_utils
 	int			flag2;
 }	t_ast_utils;
 
+void	parse_heredoc(t_token *token, t_ast_utils **util);
 void		skip_token(t_token **tok, t_lexer **lex);
+void		parse_heredoc(t_token *token, t_ast_utils **util);
 void		init_parser(t_lexer **lexer, t_syntax_tree **tree);
 void		p_expand_tree(t_ast_node *node);
 t_ast_node	*p_build_tree(t_lexer **lex, t_token *token);

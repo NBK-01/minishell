@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 11:27:53 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/07/29 13:56:18 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:38:24 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,48 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-static size_t total_length(int count, va_list args) {
-    size_t len = 0;
-    for (int i = 0; i < count; i++) {
-        const char *str = va_arg(args, const char *);
-        if (str)
-            len += strlen(str);
-    }
-    return len;
+static size_t	total_length(int count, va_list args)
+{
+	int			i;
+	size_t		len;
+	const char	*str;
+
+	i = -1;
+	len = 0;
+	while (++i < count)
+	{
+		str = va_arg(args, const char *);
+		if (str)
+			len += ft_strlen(str);
+	}
+	return (len);
 }
 
-char *ft_strjoin_n(int count, ...) {
-    if (count <= 0)
-        return NULL;
-    
-    va_list args;
-    va_start(args, count);
+char	*ft_strjoin_n(int count, ...)
+{
+	char		*result;
+	char		*ptr;
+	const char	*str;
+	int			i;
+	va_list		args;
 
-    size_t len = total_length(count, args);
-    va_end(args);
-
-    char *result = (char *)malloc(len + 1);
-    if (!result)
-        return NULL;
-
-    va_start(args, count);
-    char *ptr = result;
-    for (int i = 0; i < count; i++) {
-        const char *str = va_arg(args, const char *);
-        if (str) {
-            while (*str) {
-                *ptr++ = *str++;
-            }
-        }
-    }
-    va_end(args);
-
-    *ptr = '\0';
-
-    return result;
+	if (count <= 0)
+		return (NULL);
+	va_start(args, count);
+	i = total_length(count, args);
+	va_end(args);
+	result = (char *)malloc(i + 1);
+	va_start(args, count);
+	ptr = result;
+	i = -1;
+	while (++i < count)
+	{
+		str = va_arg(args, const char *);
+		if (str)
+			while (*str)
+				*ptr++ = *str++;
+	}
+	va_end(args);
+	*ptr = '\0';
+	return (result);
 }

@@ -6,12 +6,23 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 09:07:38 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/09 12:17:18 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:26:32 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/lexer.h"
 #include "../../../includes/execute.h"
+
+void	set_heredoc_eof(t_token **token)
+{
+	if ((*token)->type == TYPE_HEREDOC
+		&& ((*token)->next->value[0] == '\''
+			|| (*token)->next->value[0] == '\"'))
+	{
+		(*token)->expand = -10;
+		(*token)->next->expand = 0;
+	}
+}
 
 int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 {
@@ -22,11 +33,7 @@ int	l_token_count(t_lexer *lex, t_token *token, t_env *env)
 	token = lex->token_list;
 	while (token)
 	{
-		if (token->type == TYPE_HEREDOC && (token->next->value[0] == '\'' || token->next->value[0] == '\"'))
-		{
-			token->expand = -10;
-			token->next->expand = 0;
-		}
+		set_heredoc_eof(&token);
 		if (token->type == TOKEN)
 		{
 			matches = l_glob(token->value, &hits);

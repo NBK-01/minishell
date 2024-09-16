@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/16 10:18:54 by nkanaan           #+#    #+#             */
+/*   Updated: 2024/09/16 12:14:17 by nkanaan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/structs.h"
 #include "../../includes/minishell.h"
 #include "../../includes/token.h"
@@ -7,14 +19,13 @@ char	*colorize(char *text, char *color_code)
 	size_t	text_len;
 	size_t	buffer_len;
 	char	*colored_text;
+
 	text_len = ft_strlen(text);
 	buffer_len = ft_strlen(color_code) + text_len + ft_strlen(RESET) + 1;
 	colored_text = (char *)malloc(buffer_len);
-
 	ft_strcpy(colored_text, color_code);
 	ft_strcat(colored_text, text);
 	ft_strcat(colored_text, RESET);
-
 	return (colored_text);
 }
 
@@ -49,9 +60,8 @@ char	*set_prompt(char *user, char *code, char *term)
 		return (no_env_prompt(color_code, user, color_arrow, term));
 	color_user = colorize(user, GREEN);
 	free(user);
-	prompt = ft_strjoin_n(8, color_user, "@", term, " ", 
-        "[", 
-        color_code, "] ", color_arrow);
+	prompt = ft_strjoin_n(8, color_user, "@", term, " ",
+			"[", color_code, "] ", color_arrow);
 	free(color_user);
 	free(term);
 	free(color_code);
@@ -61,12 +71,11 @@ char	*set_prompt(char *user, char *code, char *term)
 
 char	*get_prompt(t_env **env, int code)
 {
-	(void)code;
 	char	*user;
 	char	*term;
 	t_env	*head;
 	char	*code_str;
-	
+
 	head = (*env);
 	user = NULL;
 	term = NULL;
@@ -80,5 +89,6 @@ char	*get_prompt(t_env **env, int code)
 			code_str = ft_strdup(head->value);
 		head = head->next;
 	}
+	(void)code;
 	return (set_prompt(user, code_str, term));
 }

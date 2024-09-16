@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:40:59 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 08:54:50 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:35:10 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 ////////////		INITS			    //////////
 ////////////////////////////////////////////////////////////*/
 ///
+void	export_null_arg(t_env **env, char *arg);
+void	export_arg_value(t_env **env, char *key, char *value);
+void	export_args(t_env **env, char *arg);
+bool	validate_export_args(char *arg);
+void	handle_export_args(t_env **env, t_exec_utils **util, char **args);
 char	*get_prompt(t_env **env, int code);
 char	*get_value(const char *str);
 char	*get_key(char *str);

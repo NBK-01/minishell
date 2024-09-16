@@ -51,6 +51,8 @@ void	modify_shell_lvl(t_env *env)
 			nbr = ft_atoi(head->value);
 			nbr += 1;
 			level = ft_itoa(nbr);
+			if (head->value)
+				free(head->value);
 			head->value = level;
 			return ;
 		}

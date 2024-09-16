@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:58 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 07:18:12 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:22:26 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	prompt_loop(t_env *env)
 	char			*input;
 	t_lexer			*lex;
 	t_exec_utils	*util;
-	char		*prompt;
+	char			*prompt;
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;

@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   p_node_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 12:17:47 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/16 13:15:34 by nkanaan          ###   ########.fr       */
+/*   Created: 2024/09/16 11:51:13 by nkanaan           #+#    #+#             */
+/*   Updated: 2024/09/16 13:40:00 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "../../../../includes/ast.h"
+#include "../../../../includes/token.h"
+#include "../../../../includes/lexer.h"
+#include <fcntl.h>
+#include <errno.h>
 
-int	ft_isalpha(int c)
+void	parse_heredoc(t_token *token, t_ast_utils **util)
 {
-	if ((c >= 'A') && (c <= 'Z'))
+	if (token->type == TYPE_HEREDOC)
 	{
-		return (1);
+		if (token->expand == -10)
+			(*util)->here_doc = 2;
+		else
+			(*util)->here_doc = 1;
 	}
-	else if ((c >= 'a') && (c <= 'z'))
-	{
-		return (1);
-	}
-	return (0);
 }

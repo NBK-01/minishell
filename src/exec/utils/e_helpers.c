@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:17 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 15:54:48 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:25:30 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	builtins_one(t_ast_node *node, t_exec_utils *util, t_env **env,
 			char *path)
 {
 	char	*oldpwd;
-	(void)env;
 
+	(void)env;
 	if (!ft_strcmp(node->args[0], "exit"))
 	{
 		if (handle_exit(util, node))

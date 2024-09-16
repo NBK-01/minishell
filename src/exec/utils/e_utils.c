@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:27 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 08:17:42 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:25:58 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	end_heredoc(char *line, int *flag, int pipefd[2])
 void	handle_doc(t_ast_node *node, int pipefd[2], t_env *env)
 {
 	char		*line;
-	int		flag;
+	int			flag;
 	char		*lim;
 
 	flag = 1;
@@ -79,12 +79,7 @@ void	handle_doc(t_ast_node *node, int pipefd[2], t_env *env)
 	while (flag)
 	{
 		line = get_next_line(STDIN_FILENO);
-		if (!line)
-		{
-			end_heredoc(line, &flag, pipefd);
-			return ;
-		}
-		if (g_mini.mini_code == 130)
+		if (g_mini.mini_code == 130 || !line)
 		{
 			end_heredoc(line, &flag, pipefd);
 			return ;

@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:37:03 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 14:55:22 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:50:49 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,7 @@ int	p_parse_in(t_ast_utils **util, t_lexer **lex, t_token **tok)
 	t_token	*token;
 
 	token = (*lex)->token_list;
-	if (token->type == TYPE_HEREDOC)
-	{
-		if (token->expand == -10)
-			(*util)->here_doc = 2;
-		else
-			(*util)->here_doc = 1;
-
-	}
+	parse_heredoc(token, util);
 	if (token->next && token->next->type == TOKEN)
 	{
 		(*util)->in = ft_strdup(token->next->value);
@@ -63,10 +56,7 @@ int	p_parse_redirect(t_ast_utils **util, t_lexer **lex, t_token **tok)
 			redirect_access(util);
 		}
 		if (token->next && token->next->next)
-		{
-			(*tok) = (*tok)->next->next;
-			(*lex)->token_list = (*lex)->token_list->next->next;
-		}
+			skip_token(tok, lex);
 		else
 		{
 			(*util)->node = p_build_simple_command((*util));
