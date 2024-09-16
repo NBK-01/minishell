@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mhabbal <mhabbal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 19:03:00 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 15:46:50 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:57:37 by mhabbal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	exec_pwd(char **args, t_exec_utils **util)
 		return ;
 	}
 	cwd = getcwd(NULL, 0);
-	if (cwd == NULL){
-		perror("pwd");return ;}
+	if (cwd == NULL)
+	{
+		perror("pwd");
+		return ;
+	}
 	if (cwd)
 	{
 		printf("%s\n", cwd);

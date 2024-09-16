@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mhabbal <mhabbal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:58 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 07:18:12 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:01:55 by mhabbal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 		{
 			tree = ft_calloc(1, sizeof(t_syntax_tree));
 			init_parser(&lex, &tree);
-			lex->util->rec_count = 0;
 			free_lexer(&lex);
 			here_doc_handler(tree->branch, &util);
 			init_execute(tree, env, &util);
