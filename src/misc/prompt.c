@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 10:18:54 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/16 12:14:17 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:21:57 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,14 @@ char	*get_prompt(t_env **env, int code)
 	head = (*env);
 	user = NULL;
 	term = NULL;
+	code_str = ft_itoa(code);
 	while (head)
 	{
 		if (!ft_strcmp(head->key, "USER"))
 			user = ft_strdup(head->value);
 		if (!ft_strcmp(head->key, "TERM"))
 			term = ft_strdup(head->value);
-		if (!ft_strcmp(head->key, "?"))
-			code_str = ft_strdup(head->value);
 		head = head->next;
 	}
-	(void)code;
 	return (set_prompt(user, code_str, term));
 }

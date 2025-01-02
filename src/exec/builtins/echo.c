@@ -6,13 +6,13 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:12:41 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/16 12:11:16 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 16:34:19 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/execute.h"
 
-static void	init_vars(int *flag, int *i)
+void	init_vars(int *flag, int *i)
 {
 	*flag = 0;
 	*i = 0;

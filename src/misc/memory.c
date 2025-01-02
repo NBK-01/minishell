@@ -12,7 +12,6 @@
 
 #include "../../includes/minishell.h"
 #include "../../includes/token.h"
-#include "../../includes/ast.h"
 
 static void	free_tree(t_syntax_tree *tree)
 {
@@ -39,9 +38,6 @@ void	free_ast(t_ast_node *node)
 			free(node->in);
 		if (node->out)
 			free(node->out);
-		if (node->lexer)
-			if ((*node->lexer)->token_list)
-				free_token_ll((*node->lexer)->token_list);
 		free(node);
 	}
 }

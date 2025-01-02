@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 17:03:29 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/10 13:46:52 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:15:07 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_ast_node
 	struct s_lexer			**sub;
 	int						append;
 	int						here_doc;
+	int						fd_here_doc;
 	int						exit;
 }	t_ast_node;
 

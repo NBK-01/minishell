@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:40:59 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/16 13:35:10 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:36:34 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 ////////////		INITS			    //////////
 ////////////////////////////////////////////////////////////*/
 ///
+void	free_loop(t_syntax_tree *tree, t_token *token);
+void	here_doc_handler(t_ast_node *node, t_exec_utils **util);
 void	export_null_arg(t_env **env, char *arg);
 void	export_arg_value(t_env **env, char *key, char *value);
 void	export_args(t_env **env, char *arg);

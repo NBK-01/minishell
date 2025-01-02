@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:06:01 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 15:38:43 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 14:16:58 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ void	free_shell(t_token *token, t_lexer *lex)
 	free_token_ll(token);
 	free(lex->util);
 	free(lex);
+}
+
+void	free_loop(t_syntax_tree *tree, t_token *token)
+{
+	free_ast(tree->branch);
+	free(tree);
+	free_token_ll(token);
 }
 
 void	handle_eof(t_exec_utils *util)

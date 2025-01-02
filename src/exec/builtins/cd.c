@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:37:49 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/11 15:54:48 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 17:11:43 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,19 @@ int	path_cd(t_exec_utils *util, char **args)
 {
 	char	*path;
 	char	*home;
+	char	*test;
 
 	home = get_cd_path(&util->env, "HOME");
 	path = ft_strdup(args[1]);
 	if (path)
 	{
 		if (path[0] == '~')
-			path = ft_strjoin(home, ft_substr(path, 1, ft_strlen(path) - 1));
+		{
+			test = ft_substr(path, 1, ft_strlen(path) - 1);
+			free(path);
+			path = ft_strjoin(home, test);
+			free(test);
+		}
 		if (chdir(path) != 0)
 		{
 			util->code = 1;

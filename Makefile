@@ -20,7 +20,7 @@ utils/quotes/l_quotes utils/glob/l_glob utils/glob/l_glob_utils \
 utils/operators/l_ampersand utils/operators/l_pipes utils/operators/l_redirect \
 utils/parens/l_parens utils/parens/l_paren_utils utils/expand/l_expand utils/expand/l_expand_utils
 
-PARSER_SRCS = p_build_tree p_build_pipeline utils/p_utils utils/nodes/p_build_nodes utils/nodes/p_parse_nodes utils/nodes/p_node_util
+PARSER_SRCS = p_build_tree p_build_pipeline utils/p_utils utils/nodes/p_build_nodes utils/nodes/p_parse_nodes utils/nodes/p_node_util utils/p_heredoc
 
 EXEC_SRCS = e_execution utils/e_utils utils/pipeline/e_pipeline utils/e_helpers utils/e_redir utils/e_array_copy utils/get_next_line
 

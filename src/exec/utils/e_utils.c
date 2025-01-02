@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 20:16:27 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/16 13:25:58 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:37:08 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,42 +53,51 @@ char	*get_path(char **s_cmd, t_env **env_ll, char *result)
 
 static void	doc_expand(char *line, int pipefd[2], t_env *env, int expand)
 {
+	char	*temp;
+
 	if (expand == 2)
 		line = line;
 	else
-		line = expand_variables(line, 1, env);
+	{
+		temp = expand_variables(line, 1, env);
+		free(line);
+		line = temp;
+	}
 	write(pipefd[1], line, ft_strlen(line));
 	free(line);
+	line = NULL;
 }
 
-static void	end_heredoc(char *line, int *flag, int pipefd[2])
+static void	end_heredoc(char *line, int pipefd[2])
 {
 	free(line);
-	*flag -= *flag;
 	close(pipefd[1]);
 }
 
-void	handle_doc(t_ast_node *node, int pipefd[2], t_env *env)
+void	handle_doc(t_ast_node *node, int pipefd[2],
+				t_env *env, t_exec_utils *util)
 {
-	char		*line;
-	int			flag;
-	char		*lim;
+	char	*line;
+	char	*lim;
 
-	flag = 1;
 	lim = node->in;
-	while (flag)
+	(void)util;
+	signal_handler();
+	signal(SIGINT, sigint_heredoc);
+	while (1)
 	{
 		line = get_next_line(STDIN_FILENO);
-		if (g_mini.mini_code == 130 || !line)
+		if (!line)
 		{
-			end_heredoc(line, &flag, pipefd);
-			return ;
+			end_heredoc(line, pipefd);
+			exit(0);
 		}
 		if (ft_strncmp(line, lim, ft_strlen(lim)) == 0)
 		{
-			end_heredoc(line, &flag, pipefd);
-			return ;
+			end_heredoc(line, pipefd);
+			exit(0);
 		}
 		doc_expand(line, pipefd, env, node->here_doc);
 	}
+	signal_handler();
 }

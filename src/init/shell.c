@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:29:58 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/16 13:22:26 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:19:17 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,9 @@ int	init_shell(t_lexer *lex, t_exec_utils *util, t_env **env)
 			init_parser(&lex, &tree);
 			lex->util->rec_count = 0;
 			free_lexer(&lex);
+			here_doc_handler(tree->branch, &util);
 			init_execute(tree, env, &util);
-			free_ast(tree->branch);
-			free(tree);
-			free_token_ll(token);
+			free_loop(tree, token);
 		}
 		else
 			free_shell(token, lex);
@@ -89,7 +88,7 @@ void	prompt_loop(t_env *env)
 
 	util = malloc(sizeof(t_exec_utils));
 	util->code = 0;
-	signal_handler();
+	util->env = env;
 	while (1)
 	{
 		lex = malloc(sizeof(t_lexer));

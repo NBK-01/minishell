@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 02:44:47 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/11 14:45:29 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:36:47 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void	sigint_heredoc(int signum)
 {
 	(void)signum;
 	g_mini.mini_code = 130;
+	exit(130);
 }

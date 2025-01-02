@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 18:02:58 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/11 14:59:29 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 13:59:55 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	check_in(t_ast_node *node, int pipefd[2], t_exec_utils *util)
 {
 	int	fd_in;
 
+	(void)util;
+	(void)pipefd;
 	if (node->in)
 	{
 		if (node->exit)
 			exit(node->exit);
 		if (node->here_doc)
 		{
-			pipe(pipefd);
-			handle_doc(node, pipefd, util->env);
-			dup2(pipefd[0], STDIN_FILENO);
-			close(pipefd[0]);
+			dup2(node->fd_here_doc, STDIN_FILENO);
+			close(node->fd_here_doc);
 		}
 		else
 		{

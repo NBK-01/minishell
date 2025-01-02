@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:29:51 by nbk               #+#    #+#             */
-/*   Updated: 2024/09/11 14:06:49 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 16:40:43 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	handle_exit(t_exec_utils *util, t_ast_node *node)
 		ft_putendl_fd("exit", 0);
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putendl_fd("too many arguments", 2);
-		free_ast(node);
-		exit(2);
+		util->code = 1;
+		return (1);
 	}
 	else if (args && args[1])
 	{

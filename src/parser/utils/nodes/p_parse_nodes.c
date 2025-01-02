@@ -6,7 +6,7 @@
 /*   By: nkanaan <nkanaan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:37:03 by nkanaan           #+#    #+#             */
-/*   Updated: 2024/09/16 11:50:49 by nkanaan          ###   ########.fr       */
+/*   Updated: 2024/09/16 17:19:26 by nkanaan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	p_parse_redirect(t_ast_utils **util, t_lexer **lex, t_token **tok)
 			(*util)->append = 1;
 		if (token->next && token->next->type == TOKEN)
 		{
+			if ((*util)->out)
+				free((*util)->out);
 			(*util)->out = ft_strdup(token->next->value);
 			redirect_access(util);
 		}
